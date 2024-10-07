@@ -1,0 +1,6 @@
+framework module Pods_PokoroWebAppTests {
+  umbrella header "Pods-PokoroWebAppTests-umbrella.h"
+
+  export *
+  module * { export * }
+}

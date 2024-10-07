@@ -3,8 +3,37 @@
 	archiveVersion = 1;
 	classes = {
 	};
-	objectVersion = 77;
+	objectVersion = 56;
 	objects = {
+
+/* Begin PBXBuildFile section */
+		0AC6C04F02316FEF26D1E4AA /* Pods_PokoroWebApp_PokoroWebAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8687D4DD6B6F8C2751B84AFD /* Pods_PokoroWebApp_PokoroWebAppUITests.framework */; };
+		9CD3B354955696BE039DE634 /* Pods_PokoroWebAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D097118AFAD039B385F22B60 /* Pods_PokoroWebAppTests.framework */; };
+		C31021627BF87664FAEB70B6 /* Pods_PokoroWebApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9490E5228CAE4BB2CC614822 /* Pods_PokoroWebApp.framework */; };
+		F672802D2CB3A02B003ACF11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F67280242CB3A02B003ACF11 /* Assets.xcassets */; };
+		F672802F2CB3A02B003ACF11 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F67280272CB3A02B003ACF11 /* LaunchScreen.storyboard */; };
+		F67280302CB3A02B003ACF11 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F67280292CB3A02B003ACF11 /* Main.storyboard */; };
+		F67280312CB3A02B003ACF11 /* AppDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67280232CB3A02B003ACF11 /* AppDelegate.swift */; };
+		F67280322CB3A02B003ACF11 /* SceneDelegate.swift in Sources */ = {isa = PBXBuildFile; fileRef = F672802A2CB3A02B003ACF11 /* SceneDelegate.swift */; };
+		F67280332CB3A02B003ACF11 /* ViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F672802B2CB3A02B003ACF11 /* ViewController.swift */; };
+		F672804F2CB3A210003ACF11 /* JWTDecode.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67280452CB3A210003ACF11 /* JWTDecode.swift */; };
+		F67280502CB3A210003ACF11 /* Requestable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67280472CB3A210003ACF11 /* Requestable.swift */; };
+		F67280512CB3A210003ACF11 /* Requestable+Debug.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67280492CB3A210003ACF11 /* Requestable+Debug.swift */; };
+		F67280522CB3A210003ACF11 /* NetworkHandler.swift in Sources */ = {isa = PBXBuildFile; fileRef = F672804E2CB3A210003ACF11 /* NetworkHandler.swift */; };
+		F67280532CB3A210003ACF11 /* AuthService.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67280432CB3A210003ACF11 /* AuthService.swift */; };
+		F67280542CB3A210003ACF11 /* Requestable+Loading.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67280482CB3A210003ACF11 /* Requestable+Loading.swift */; };
+		F67280552CB3A210003ACF11 /* JWTDecodeError.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67280462CB3A210003ACF11 /* JWTDecodeError.swift */; };
+		F67280562CB3A210003ACF11 /* JWT.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67280442CB3A210003ACF11 /* JWT.swift */; };
+		F67280572CB3A210003ACF11 /* DownloadProgresser.swift in Sources */ = {isa = PBXBuildFile; fileRef = F672804B2CB3A210003ACF11 /* DownloadProgresser.swift */; };
+		F67280582CB3A210003ACF11 /* Fetchable.swift in Sources */ = {isa = PBXBuildFile; fileRef = F672804D2CB3A210003ACF11 /* Fetchable.swift */; };
+		F67280592CB3A210003ACF11 /* PathComponentProvider.swift in Sources */ = {isa = PBXBuildFile; fileRef = F672804A2CB3A210003ACF11 /* PathComponentProvider.swift */; };
+		F672805A2CB3A210003ACF11 /* Configuration.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67280422CB3A210003ACF11 /* Configuration.swift */; };
+		F672805B2CB3A210003ACF11 /* Authenticator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F672804C2CB3A210003ACF11 /* Authenticator.swift */; };
+		F672805F2CB3A215003ACF11 /* BLEConnectorForWeb.swift in Sources */ = {isa = PBXBuildFile; fileRef = F672805C2CB3A215003ACF11 /* BLEConnectorForWeb.swift */; };
+		F67280602CB3A215003ACF11 /* PokoroWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F672805D2CB3A215003ACF11 /* PokoroWebViewController.swift */; };
+		F67280612CB3A215003ACF11 /* WebMessageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F672805E2CB3A215003ACF11 /* WebMessageController.swift */; };
+		F67280642CB3D3B8003ACF11 /* WifiConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67280632CB3D3B8003ACF11 /* WifiConnector.swift */; };
+/* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
 		F6727FF02CB37F51003ACF11 /* PBXContainerItemProxy */ = {
@@ -24,47 +53,51 @@
 /* End PBXContainerItemProxy section */
 
 /* Begin PBXFileReference section */
+		4A2A1B382DE8ACDB6376E23A /* Pods-PokoroWebApp-PokoroWebAppUITests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PokoroWebApp-PokoroWebAppUITests.release.xcconfig"; path = "Target Support Files/Pods-PokoroWebApp-PokoroWebAppUITests/Pods-PokoroWebApp-PokoroWebAppUITests.release.xcconfig"; sourceTree = "<group>"; };
+		60B81D3414B0F660124A005C /* Pods-PokoroWebApp-PokoroWebAppUITests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PokoroWebApp-PokoroWebAppUITests.debug.xcconfig"; path = "Target Support Files/Pods-PokoroWebApp-PokoroWebAppUITests/Pods-PokoroWebApp-PokoroWebAppUITests.debug.xcconfig"; sourceTree = "<group>"; };
+		7B74F3652875C2E5E4A63E36 /* Pods-PokoroWebAppTests.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PokoroWebAppTests.debug.xcconfig"; path = "Target Support Files/Pods-PokoroWebAppTests/Pods-PokoroWebAppTests.debug.xcconfig"; sourceTree = "<group>"; };
+		8687D4DD6B6F8C2751B84AFD /* Pods_PokoroWebApp_PokoroWebAppUITests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PokoroWebApp_PokoroWebAppUITests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		9490E5228CAE4BB2CC614822 /* Pods_PokoroWebApp.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PokoroWebApp.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		CD8883F0695727FE586B1763 /* Pods-PokoroWebAppTests.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PokoroWebAppTests.release.xcconfig"; path = "Target Support Files/Pods-PokoroWebAppTests/Pods-PokoroWebAppTests.release.xcconfig"; sourceTree = "<group>"; };
+		D097118AFAD039B385F22B60 /* Pods_PokoroWebAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PokoroWebAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
+		E3DF4552C19614C2EF5279A1 /* Pods-PokoroWebApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PokoroWebApp.debug.xcconfig"; path = "Target Support Files/Pods-PokoroWebApp/Pods-PokoroWebApp.debug.xcconfig"; sourceTree = "<group>"; };
+		F4959FA037DB040549326757 /* Pods-PokoroWebApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PokoroWebApp.release.xcconfig"; path = "Target Support Files/Pods-PokoroWebApp/Pods-PokoroWebApp.release.xcconfig"; sourceTree = "<group>"; };
 		F6727FD92CB37F50003ACF11 /* PokoroWebApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PokoroWebApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6727FEF2CB37F51003ACF11 /* PokoroWebAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PokoroWebAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6727FF92CB37F51003ACF11 /* PokoroWebAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PokoroWebAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
+		F67280232CB3A02B003ACF11 /* AppDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AppDelegate.swift; sourceTree = "<group>"; };
+		F67280242CB3A02B003ACF11 /* Assets.xcassets */ = {isa = PBXFileReference; lastKnownFileType = folder.assetcatalog; path = Assets.xcassets; sourceTree = "<group>"; };
+		F67280252CB3A02B003ACF11 /* Info.plist */ = {isa = PBXFileReference; lastKnownFileType = text.plist.xml; path = Info.plist; sourceTree = "<group>"; };
+		F67280262CB3A02B003ACF11 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/LaunchScreen.storyboard; sourceTree = "<group>"; };
+		F67280282CB3A02B003ACF11 /* Base */ = {isa = PBXFileReference; lastKnownFileType = file.storyboard; name = Base; path = Base.lproj/Main.storyboard; sourceTree = "<group>"; };
+		F672802A2CB3A02B003ACF11 /* SceneDelegate.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = SceneDelegate.swift; sourceTree = "<group>"; };
+		F672802B2CB3A02B003ACF11 /* ViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = ViewController.swift; sourceTree = "<group>"; };
+		F67280422CB3A210003ACF11 /* Configuration.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Configuration.swift; sourceTree = "<group>"; };
+		F67280432CB3A210003ACF11 /* AuthService.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = AuthService.swift; sourceTree = "<group>"; };
+		F67280442CB3A210003ACF11 /* JWT.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWT.swift; sourceTree = "<group>"; };
+		F67280452CB3A210003ACF11 /* JWTDecode.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWTDecode.swift; sourceTree = "<group>"; };
+		F67280462CB3A210003ACF11 /* JWTDecodeError.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = JWTDecodeError.swift; sourceTree = "<group>"; };
+		F67280472CB3A210003ACF11 /* Requestable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Requestable.swift; sourceTree = "<group>"; };
+		F67280482CB3A210003ACF11 /* Requestable+Loading.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Requestable+Loading.swift"; sourceTree = "<group>"; };
+		F67280492CB3A210003ACF11 /* Requestable+Debug.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = "Requestable+Debug.swift"; sourceTree = "<group>"; };
+		F672804A2CB3A210003ACF11 /* PathComponentProvider.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PathComponentProvider.swift; sourceTree = "<group>"; };
+		F672804B2CB3A210003ACF11 /* DownloadProgresser.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = DownloadProgresser.swift; sourceTree = "<group>"; };
+		F672804C2CB3A210003ACF11 /* Authenticator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Authenticator.swift; sourceTree = "<group>"; };
+		F672804D2CB3A210003ACF11 /* Fetchable.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = Fetchable.swift; sourceTree = "<group>"; };
+		F672804E2CB3A210003ACF11 /* NetworkHandler.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = NetworkHandler.swift; sourceTree = "<group>"; };
+		F672805C2CB3A215003ACF11 /* BLEConnectorForWeb.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = BLEConnectorForWeb.swift; sourceTree = "<group>"; };
+		F672805D2CB3A215003ACF11 /* PokoroWebViewController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokoroWebViewController.swift; sourceTree = "<group>"; };
+		F672805E2CB3A215003ACF11 /* WebMessageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebMessageController.swift; sourceTree = "<group>"; };
+		F67280622CB3A27A003ACF11 /* PokoroWebApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PokoroWebApp.entitlements; sourceTree = "<group>"; };
+		F67280632CB3D3B8003ACF11 /* WifiConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiConnector.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
-
-/* Begin PBXFileSystemSynchronizedBuildFileExceptionSet section */
-		F67280012CB37F51003ACF11 /* Exceptions for "PokoroWebApp" folder in "PokoroWebApp" target */ = {
-			isa = PBXFileSystemSynchronizedBuildFileExceptionSet;
-			membershipExceptions = (
-				Info.plist,
-			);
-			target = F6727FD82CB37F50003ACF11 /* PokoroWebApp */;
-		};
-/* End PBXFileSystemSynchronizedBuildFileExceptionSet section */
-
-/* Begin PBXFileSystemSynchronizedRootGroup section */
-		F6727FDB2CB37F50003ACF11 /* PokoroWebApp */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			exceptions = (
-				F67280012CB37F51003ACF11 /* Exceptions for "PokoroWebApp" folder in "PokoroWebApp" target */,
-			);
-			path = PokoroWebApp;
-			sourceTree = "<group>";
-		};
-		F6727FF22CB37F51003ACF11 /* PokoroWebAppTests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = PokoroWebAppTests;
-			sourceTree = "<group>";
-		};
-		F6727FFC2CB37F51003ACF11 /* PokoroWebAppUITests */ = {
-			isa = PBXFileSystemSynchronizedRootGroup;
-			path = PokoroWebAppUITests;
-			sourceTree = "<group>";
-		};
-/* End PBXFileSystemSynchronizedRootGroup section */
 
 /* Begin PBXFrameworksBuildPhase section */
 		F6727FD62CB37F50003ACF11 /* Frameworks */ = {
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				C31021627BF87664FAEB70B6 /* Pods_PokoroWebApp.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -72,6 +105,7 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				9CD3B354955696BE039DE634 /* Pods_PokoroWebAppTests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -79,19 +113,45 @@
 			isa = PBXFrameworksBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				0AC6C04F02316FEF26D1E4AA /* Pods_PokoroWebApp_PokoroWebAppUITests.framework in Frameworks */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
 /* End PBXFrameworksBuildPhase section */
 
 /* Begin PBXGroup section */
+		BE10525983B0747FD9698F7F /* Frameworks */ = {
+			isa = PBXGroup;
+			children = (
+				9490E5228CAE4BB2CC614822 /* Pods_PokoroWebApp.framework */,
+				8687D4DD6B6F8C2751B84AFD /* Pods_PokoroWebApp_PokoroWebAppUITests.framework */,
+				D097118AFAD039B385F22B60 /* Pods_PokoroWebAppTests.framework */,
+			);
+			name = Frameworks;
+			sourceTree = "<group>";
+		};
+		BF0569048A2B4D8BAB0DCD61 /* Pods */ = {
+			isa = PBXGroup;
+			children = (
+				E3DF4552C19614C2EF5279A1 /* Pods-PokoroWebApp.debug.xcconfig */,
+				F4959FA037DB040549326757 /* Pods-PokoroWebApp.release.xcconfig */,
+				60B81D3414B0F660124A005C /* Pods-PokoroWebApp-PokoroWebAppUITests.debug.xcconfig */,
+				4A2A1B382DE8ACDB6376E23A /* Pods-PokoroWebApp-PokoroWebAppUITests.release.xcconfig */,
+				7B74F3652875C2E5E4A63E36 /* Pods-PokoroWebAppTests.debug.xcconfig */,
+				CD8883F0695727FE586B1763 /* Pods-PokoroWebAppTests.release.xcconfig */,
+			);
+			path = Pods;
+			sourceTree = "<group>";
+		};
 		F6727FD02CB37F50003ACF11 = {
 			isa = PBXGroup;
 			children = (
-				F6727FDB2CB37F50003ACF11 /* PokoroWebApp */,
+				F672802C2CB3A02B003ACF11 /* PokoroWebApp */,
 				F6727FF22CB37F51003ACF11 /* PokoroWebAppTests */,
 				F6727FFC2CB37F51003ACF11 /* PokoroWebAppUITests */,
 				F6727FDA2CB37F50003ACF11 /* Products */,
+				BF0569048A2B4D8BAB0DCD61 /* Pods */,
+				BE10525983B0747FD9698F7F /* Frameworks */,
 			);
 			sourceTree = "<group>";
 		};
@@ -105,6 +165,68 @@
 			name = Products;
 			sourceTree = "<group>";
 		};
+		F6727FF22CB37F51003ACF11 /* PokoroWebAppTests */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = PokoroWebAppTests;
+			sourceTree = "<group>";
+		};
+		F6727FFC2CB37F51003ACF11 /* PokoroWebAppUITests */ = {
+			isa = PBXGroup;
+			children = (
+			);
+			path = PokoroWebAppUITests;
+			sourceTree = "<group>";
+		};
+		F672802C2CB3A02B003ACF11 /* PokoroWebApp */ = {
+			isa = PBXGroup;
+			children = (
+				F67280622CB3A27A003ACF11 /* PokoroWebApp.entitlements */,
+				F67280412CB3A205003ACF11 /* WebApproach */,
+				F67280402CB3A1F8003ACF11 /* Network */,
+				F67280232CB3A02B003ACF11 /* AppDelegate.swift */,
+				F67280242CB3A02B003ACF11 /* Assets.xcassets */,
+				F67280252CB3A02B003ACF11 /* Info.plist */,
+				F67280272CB3A02B003ACF11 /* LaunchScreen.storyboard */,
+				F67280292CB3A02B003ACF11 /* Main.storyboard */,
+				F672802A2CB3A02B003ACF11 /* SceneDelegate.swift */,
+				F672802B2CB3A02B003ACF11 /* ViewController.swift */,
+			);
+			path = PokoroWebApp;
+			sourceTree = "<group>";
+		};
+		F67280402CB3A1F8003ACF11 /* Network */ = {
+			isa = PBXGroup;
+			children = (
+				F67280422CB3A210003ACF11 /* Configuration.swift */,
+				F67280432CB3A210003ACF11 /* AuthService.swift */,
+				F67280442CB3A210003ACF11 /* JWT.swift */,
+				F67280452CB3A210003ACF11 /* JWTDecode.swift */,
+				F67280462CB3A210003ACF11 /* JWTDecodeError.swift */,
+				F67280472CB3A210003ACF11 /* Requestable.swift */,
+				F67280482CB3A210003ACF11 /* Requestable+Loading.swift */,
+				F67280492CB3A210003ACF11 /* Requestable+Debug.swift */,
+				F672804A2CB3A210003ACF11 /* PathComponentProvider.swift */,
+				F672804B2CB3A210003ACF11 /* DownloadProgresser.swift */,
+				F672804C2CB3A210003ACF11 /* Authenticator.swift */,
+				F672804D2CB3A210003ACF11 /* Fetchable.swift */,
+				F672804E2CB3A210003ACF11 /* NetworkHandler.swift */,
+			);
+			path = Network;
+			sourceTree = "<group>";
+		};
+		F67280412CB3A205003ACF11 /* WebApproach */ = {
+			isa = PBXGroup;
+			children = (
+				F672805C2CB3A215003ACF11 /* BLEConnectorForWeb.swift */,
+				F672805D2CB3A215003ACF11 /* PokoroWebViewController.swift */,
+				F672805E2CB3A215003ACF11 /* WebMessageController.swift */,
+				F67280632CB3D3B8003ACF11 /* WifiConnector.swift */,
+			);
+			path = WebApproach;
+			sourceTree = "<group>";
+		};
 /* End PBXGroup section */
 
 /* Begin PBXNativeTarget section */
@@ -112,20 +234,17 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F67280022CB37F51003ACF11 /* Build configuration list for PBXNativeTarget "PokoroWebApp" */;
 			buildPhases = (
+				1755BD3676668B3C74285724 /* [CP] Check Pods Manifest.lock */,
 				F6727FD52CB37F50003ACF11 /* Sources */,
 				F6727FD62CB37F50003ACF11 /* Frameworks */,
 				F6727FD72CB37F50003ACF11 /* Resources */,
+				E0AFD42DD08BE73D0C2F5AB4 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 			);
-			fileSystemSynchronizedGroups = (
-				F6727FDB2CB37F50003ACF11 /* PokoroWebApp */,
-			);
 			name = PokoroWebApp;
-			packageProductDependencies = (
-			);
 			productName = PokoroWebApp;
 			productReference = F6727FD92CB37F50003ACF11 /* PokoroWebApp.app */;
 			productType = "com.apple.product-type.application";
@@ -134,6 +253,7 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F67280072CB37F51003ACF11 /* Build configuration list for PBXNativeTarget "PokoroWebAppTests" */;
 			buildPhases = (
+				A2AB7C79897355DEBD9827F8 /* [CP] Check Pods Manifest.lock */,
 				F6727FEB2CB37F51003ACF11 /* Sources */,
 				F6727FEC2CB37F51003ACF11 /* Frameworks */,
 				F6727FED2CB37F51003ACF11 /* Resources */,
@@ -143,12 +263,7 @@
 			dependencies = (
 				F6727FF12CB37F51003ACF11 /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				F6727FF22CB37F51003ACF11 /* PokoroWebAppTests */,
-			);
 			name = PokoroWebAppTests;
-			packageProductDependencies = (
-			);
 			productName = PokoroWebAppTests;
 			productReference = F6727FEF2CB37F51003ACF11 /* PokoroWebAppTests.xctest */;
 			productType = "com.apple.product-type.bundle.unit-test";
@@ -157,21 +272,18 @@
 			isa = PBXNativeTarget;
 			buildConfigurationList = F672800A2CB37F51003ACF11 /* Build configuration list for PBXNativeTarget "PokoroWebAppUITests" */;
 			buildPhases = (
+				4101FD3AF8AE87A9E4E26E19 /* [CP] Check Pods Manifest.lock */,
 				F6727FF52CB37F51003ACF11 /* Sources */,
 				F6727FF62CB37F51003ACF11 /* Frameworks */,
 				F6727FF72CB37F51003ACF11 /* Resources */,
+				DDFC83BEEE25300405F2C886 /* [CP] Embed Pods Frameworks */,
 			);
 			buildRules = (
 			);
 			dependencies = (
 				F6727FFB2CB37F51003ACF11 /* PBXTargetDependency */,
 			);
-			fileSystemSynchronizedGroups = (
-				F6727FFC2CB37F51003ACF11 /* PokoroWebAppUITests */,
-			);
 			name = PokoroWebAppUITests;
-			packageProductDependencies = (
-			);
 			productName = PokoroWebAppUITests;
 			productReference = F6727FF92CB37F51003ACF11 /* PokoroWebAppUITests.xctest */;
 			productType = "com.apple.product-type.bundle.ui-testing";
@@ -200,6 +312,7 @@
 				};
 			};
 			buildConfigurationList = F6727FD42CB37F50003ACF11 /* Build configuration list for PBXProject "PokoroWebApp" */;
+			compatibilityVersion = "Xcode 14.0";
 			developmentRegion = en;
 			hasScannedForEncodings = 0;
 			knownRegions = (
@@ -207,8 +320,6 @@
 				Base,
 			);
 			mainGroup = F6727FD02CB37F50003ACF11;
-			minimizedProjectReferenceProxies = 1;
-			preferredProjectObjectVersion = 77;
 			productRefGroup = F6727FDA2CB37F50003ACF11 /* Products */;
 			projectDirPath = "";
 			projectRoot = "";
@@ -225,6 +336,9 @@
 			isa = PBXResourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F672802D2CB3A02B003ACF11 /* Assets.xcassets in Resources */,
+				F672802F2CB3A02B003ACF11 /* LaunchScreen.storyboard in Resources */,
+				F67280302CB3A02B003ACF11 /* Main.storyboard in Resources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -244,11 +358,134 @@
 		};
 /* End PBXResourcesBuildPhase section */
 
+/* Begin PBXShellScriptBuildPhase section */
+		1755BD3676668B3C74285724 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PokoroWebApp-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		4101FD3AF8AE87A9E4E26E19 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PokoroWebApp-PokoroWebAppUITests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		A2AB7C79897355DEBD9827F8 /* [CP] Check Pods Manifest.lock */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+			);
+			inputPaths = (
+				"${PODS_PODFILE_DIR_PATH}/Podfile.lock",
+				"${PODS_ROOT}/Manifest.lock",
+			);
+			name = "[CP] Check Pods Manifest.lock";
+			outputFileListPaths = (
+			);
+			outputPaths = (
+				"$(DERIVED_FILE_DIR)/Pods-PokoroWebAppTests-checkManifestLockResult.txt",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "diff \"${PODS_PODFILE_DIR_PATH}/Podfile.lock\" \"${PODS_ROOT}/Manifest.lock\" > /dev/null\nif [ $? != 0 ] ; then\n    # print error to STDERR\n    echo \"error: The sandbox is not in sync with the Podfile.lock. Run 'pod install' or update your CocoaPods installation.\" >&2\n    exit 1\nfi\n# This output is used by Xcode 'outputs' to avoid re-running this script phase.\necho \"SUCCESS\" > \"${SCRIPT_OUTPUT_FILE_0}\"\n";
+			showEnvVarsInLog = 0;
+		};
+		DDFC83BEEE25300405F2C886 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PokoroWebApp-PokoroWebAppUITests/Pods-PokoroWebApp-PokoroWebAppUITests-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PokoroWebApp-PokoroWebAppUITests/Pods-PokoroWebApp-PokoroWebAppUITests-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PokoroWebApp-PokoroWebAppUITests/Pods-PokoroWebApp-PokoroWebAppUITests-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+		E0AFD42DD08BE73D0C2F5AB4 /* [CP] Embed Pods Frameworks */ = {
+			isa = PBXShellScriptBuildPhase;
+			buildActionMask = 2147483647;
+			files = (
+			);
+			inputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PokoroWebApp/Pods-PokoroWebApp-frameworks-${CONFIGURATION}-input-files.xcfilelist",
+			);
+			name = "[CP] Embed Pods Frameworks";
+			outputFileListPaths = (
+				"${PODS_ROOT}/Target Support Files/Pods-PokoroWebApp/Pods-PokoroWebApp-frameworks-${CONFIGURATION}-output-files.xcfilelist",
+			);
+			runOnlyForDeploymentPostprocessing = 0;
+			shellPath = /bin/sh;
+			shellScript = "\"${PODS_ROOT}/Target Support Files/Pods-PokoroWebApp/Pods-PokoroWebApp-frameworks.sh\"\n";
+			showEnvVarsInLog = 0;
+		};
+/* End PBXShellScriptBuildPhase section */
+
 /* Begin PBXSourcesBuildPhase section */
 		F6727FD52CB37F50003ACF11 /* Sources */ = {
 			isa = PBXSourcesBuildPhase;
 			buildActionMask = 2147483647;
 			files = (
+				F67280642CB3D3B8003ACF11 /* WifiConnector.swift in Sources */,
+				F67280312CB3A02B003ACF11 /* AppDelegate.swift in Sources */,
+				F67280322CB3A02B003ACF11 /* SceneDelegate.swift in Sources */,
+				F672805F2CB3A215003ACF11 /* BLEConnectorForWeb.swift in Sources */,
+				F67280602CB3A215003ACF11 /* PokoroWebViewController.swift in Sources */,
+				F67280612CB3A215003ACF11 /* WebMessageController.swift in Sources */,
+				F67280332CB3A02B003ACF11 /* ViewController.swift in Sources */,
+				F672804F2CB3A210003ACF11 /* JWTDecode.swift in Sources */,
+				F67280502CB3A210003ACF11 /* Requestable.swift in Sources */,
+				F67280512CB3A210003ACF11 /* Requestable+Debug.swift in Sources */,
+				F67280522CB3A210003ACF11 /* NetworkHandler.swift in Sources */,
+				F67280532CB3A210003ACF11 /* AuthService.swift in Sources */,
+				F67280542CB3A210003ACF11 /* Requestable+Loading.swift in Sources */,
+				F67280552CB3A210003ACF11 /* JWTDecodeError.swift in Sources */,
+				F67280562CB3A210003ACF11 /* JWT.swift in Sources */,
+				F67280572CB3A210003ACF11 /* DownloadProgresser.swift in Sources */,
+				F67280582CB3A210003ACF11 /* Fetchable.swift in Sources */,
+				F67280592CB3A210003ACF11 /* PathComponentProvider.swift in Sources */,
+				F672805A2CB3A210003ACF11 /* Configuration.swift in Sources */,
+				F672805B2CB3A210003ACF11 /* Authenticator.swift in Sources */,
 			);
 			runOnlyForDeploymentPostprocessing = 0;
 		};
@@ -281,15 +518,37 @@
 		};
 /* End PBXTargetDependency section */
 
+/* Begin PBXVariantGroup section */
+		F67280272CB3A02B003ACF11 /* LaunchScreen.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F67280262CB3A02B003ACF11 /* Base */,
+			);
+			name = LaunchScreen.storyboard;
+			sourceTree = "<group>";
+		};
+		F67280292CB3A02B003ACF11 /* Main.storyboard */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F67280282CB3A02B003ACF11 /* Base */,
+			);
+			name = Main.storyboard;
+			sourceTree = "<group>";
+		};
+/* End PBXVariantGroup section */
+
 /* Begin XCBuildConfiguration section */
 		F67280032CB37F51003ACF11 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = E3DF4552C19614C2EF5279A1 /* Pods-PokoroWebApp.debug.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = PokoroWebApp/PokoroWebApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = K2APH36C6M;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PokoroWebApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -312,12 +571,15 @@
 		};
 		F67280042CB37F51003ACF11 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = F4959FA037DB040549326757 /* Pods-PokoroWebApp.release.xcconfig */;
 			buildSettings = {
 				ASSETCATALOG_COMPILER_APPICON_NAME = AppIcon;
 				ASSETCATALOG_COMPILER_GLOBAL_ACCENT_COLOR_NAME = AccentColor;
+				CODE_SIGN_ENTITLEMENTS = PokoroWebApp/PokoroWebApp.entitlements;
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
 				DEVELOPMENT_TEAM = K2APH36C6M;
+				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PokoroWebApp/Info.plist;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
@@ -459,6 +721,7 @@
 		};
 		F67280082CB37F51003ACF11 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 7B74F3652875C2E5E4A63E36 /* Pods-PokoroWebAppTests.debug.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -478,6 +741,7 @@
 		};
 		F67280092CB37F51003ACF11 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = CD8883F0695727FE586B1763 /* Pods-PokoroWebAppTests.release.xcconfig */;
 			buildSettings = {
 				BUNDLE_LOADER = "$(TEST_HOST)";
 				CODE_SIGN_STYLE = Automatic;
@@ -497,6 +761,7 @@
 		};
 		F672800B2CB37F51003ACF11 /* Debug */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 60B81D3414B0F660124A005C /* Pods-PokoroWebApp-PokoroWebAppUITests.debug.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
@@ -514,6 +779,7 @@
 		};
 		F672800C2CB37F51003ACF11 /* Release */ = {
 			isa = XCBuildConfiguration;
+			baseConfigurationReference = 4A2A1B382DE8ACDB6376E23A /* Pods-PokoroWebApp-PokoroWebAppUITests.release.xcconfig */;
 			buildSettings = {
 				CODE_SIGN_STYLE = Automatic;
 				CURRENT_PROJECT_VERSION = 1;
