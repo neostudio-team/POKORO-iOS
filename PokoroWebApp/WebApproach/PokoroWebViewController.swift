@@ -26,10 +26,9 @@ class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKNavig
     private var popupWebView: WKWebView!
     
     private var disposables = Set<AnyCancellable>()
-
+    
     override func viewDidLoad() {
         super.viewDidLoad()
-
         
         // Create a WKWebView configuration and add message handler
         let contentController = WKUserContentController()
@@ -42,7 +41,6 @@ class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKNavig
         preferences.javaScriptEnabled = true
         preferences.javaScriptCanOpenWindowsAutomatically = true
         config.preferences = preferences
-        
         
         let scriptSource = """
     window.Native = {
@@ -86,7 +84,6 @@ class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKNavig
         webView.load(request)
         webView.uiDelegate = self
         webMessageController.delegate = self
-         
         
     }
     
@@ -124,22 +121,6 @@ class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKNavig
         session.start()
     }
     
-    //MARK: Creating new webView for popup
-    func webView(_ webView: WKWebView, createWebViewWith configuration: WKWebViewConfiguration, for navigationAction: WKNavigationAction, windowFeatures: WKWindowFeatures) -> WKWebView? {
-        popupWebView = WKWebView(frame: view.bounds, configuration: configuration)
-        popupWebView!.autoresizingMask = [.flexibleWidth, .flexibleHeight]
-        popupWebView!.navigationDelegate = self
-        popupWebView!.uiDelegate = self
-        view.addSubview(popupWebView!)
-        return popupWebView!
-    }
-    //MARK: To close popup
-    func webViewDidClose(_ webView: WKWebView) {
-        if webView == popupWebView {
-            popupWebView?.removeFromSuperview()
-            popupWebView = nil
-        }
-    }
     */
     /*
     func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
@@ -201,17 +182,17 @@ class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKNavig
             
             if let messageBody = message.body as? String {
                 
-                
-                
                 if messageBody == "connectPokoro" {
                     receivedMessage = .connectPokoro
+                    print("connectPokoro message received")
                     
                 } else if messageBody == "disConnectPokoro" {
                     receivedMessage = .disconnectPokoro
+                    print("disConnectPokoro message received")
                     
                 } else if messageBody == "startWifiScan" {
                     receivedMessage = .startWifiScan
-                    
+                    print("startWifiScan message received")
                 }
                 
             } else if let messageBody = message.body as? [String: Any],
@@ -222,14 +203,17 @@ class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKNavig
                        let pw = messageBody["pw"] as? String {
                         
                         receivedMessage = .wifiInputPassword(data: .init(wifiName: wifiName, pw: pw))
+                        print("wifiInputPassword message received wifiName:\(wifiName), pw:\(pw)")
                     }
                 case "customSendToken":
                     if let jsonStr = messageBody["data"] as? String {
 //                        customSendToken(jsonStr: jsonStr)
+                        print("customSendToken message received")
                     }
                 case "customSendSetting":
                     if let jsonStr = messageBody["data"] as? String {
 //                        customSendSetting(jsonStr: jsonStr)
+                        print("customSendSetting message received")
                     }
                 default:
                     break
@@ -241,59 +225,6 @@ class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKNavig
                 webMessageController.messageReceived(receivedMessage)
             }
             
-            /*
-            if let messageBody = message.body as? [String: Any] {
-                print("JavaScript sent a message: \(messageBody)")
-
-                var receivedMessage: WebMessageController.ReceivedMessage?
-                
-                // parse message and call webMessageController's function to handle message accordingly
-                if let command = messageBody["command"] as? String {
-                    
-                    if command == "connectPokoro" {
-                        receivedMessage = .connectPokoro
-                        
-                    } else if command == "disConnectPokoro" {
-                        receivedMessage = .disconnectPokoro
-                        
-                    } else if command == "startWifiScan" {
-                        receivedMessage = .startWifiScan
-                        
-                    } else if command == "wifiInputPassword" {
-                        
-                        
-                        if let wifiName = messageBody["wifiName"] as? String,
-                           let pw = messageBody["pw"] as? String {
-                            
-                            receivedMessage = .wifiInputPassword(data: .init(wifiName: wifiName, pw: pw))
-                        }
-                    }
-                }
-                
-                if let receivedMessage  = receivedMessage {
-                    isHandlingMessage = true
-                    webMessageController.messageReceived(receivedMessage)
-                }
-                
-                
-                // Call back a JavaScript function with a parameter
-                let jsWithParam = "notifyCallbackWithParameter({\"param1\":\"Value1\", \"param2\":\"Value2\"})"
-                webView.evaluateJavaScript(jsWithParam) { (result, error) in
-                    if let error = error {
-                        print("Error calling JS: \(error.localizedDescription)")
-                    }
-                }
-/*
-                // Call a simple JavaScript function without parameter
-                let jsWithoutParam = "notifyCallbackFromNative()"
-                webView.evaluateJavaScript(jsWithoutParam) { (result, error) in
-                    if let error = error {
-                        print("Error calling JS: \(error.localizedDescription)")
-                    }
-                }
- */
-            }
-             */
         }
     }
 
@@ -379,23 +310,7 @@ extension PokoroWebViewController: PokoroWebViewSendingDelegate {
             if let jsonData = try? JSONEncoder().encode(result),
                let jsonString = String(data: jsonData, encoding: .utf8) {
                 
-                // Prepare the JavaScript call with the escaped JSON string
-                /*
-                let jsonString = """
-                [{"wifiName":"Network1","security":1,"rssi":-45},{"wifiName":"Network2","security":0,"rssi":-60},{"wifiName":"Network3","security":1,"rssi":-30}]
-                """
-                */
-                
-                let c = "[{ \"wifiName\": \"HomeWiFi\", \"security\": 1, \"rssi\": -50 }]"
-                /*
-                let a = [
-                    { "wifiName": "HomeWiFi", "security": 1, "rssi": -50 },
-                    { "wifiName": "OfficeWiFi", "security": 0, "rssi": -70 }
-                  ]
-                 */
-
-//                let escapedJsonString = jsonString.replacingOccurrences(of: "\"", with: "\\\"")
-
+//                let c = "[{ \"wifiName\": \"HomeWiFi\", \"security\": 1, \"rssi\": -50 }]"
                 let jsCode = "javascript:window.onDeviceWifiScanResult(\(jsonString));"
                 
                 // Execute the JavaScript code in the web view
@@ -453,3 +368,4 @@ extension PokoroWebViewController: PokoroWebViewSendingDelegate {
     
     
 }
+

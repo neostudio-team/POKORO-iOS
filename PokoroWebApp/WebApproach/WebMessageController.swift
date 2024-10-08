@@ -59,6 +59,7 @@ class WebMessageController: NSObject {
         case .wifiInputPassword(let data):
             // 1 Use WifiConnector to connect to wifi
             // 2 Upon completion, send either success or failure message
+            // 3 Upon success, set state to init
             doForWifiInputPassword(data: data)
         }
     }
@@ -97,7 +98,11 @@ class WebMessageController: NSObject {
             return
         }
         
-        self.bleConnectorForWeb.theDevice?.scanWifiList { wifiList, _ in
+        // start wifi scan
+        self.bleConnectorForWeb.theDevice?.scanWifiList { [weak self] wifiList, _ in
+            
+            guard let self = self else { return }
+            
             DispatchQueue.main.async {
                 
                 if let list = wifiList {
@@ -133,6 +138,7 @@ class WebMessageController: NSObject {
                 switch status {
                 case .success:
                     self.delegate?.sendWifiConnected(sender: self)
+                    self.state = .initiated
                     
                 case .failure(let error):
                     self.delegate?.sendWifiConnectFailed(msg: "", sender: self)
