@@ -9,6 +9,7 @@ import UIKit
 import WebKit
 import Combine
 import AuthenticationServices
+import SafariServices
 
 class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKUIDelegate, ASWebAuthenticationPresentationContextProviding {
     func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
@@ -17,6 +18,7 @@ class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKUIDel
     
     
     private var webView: WKWebView!
+    private var auxSafari: SFSafariViewController?
     
     private let wkUserContentName = "Native"
     
@@ -37,8 +39,9 @@ class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKUIDel
         contentController.add(self, name: wkUserContentName)
         
         let config = WKWebViewConfiguration()
+        let processPool1 = WKProcessPool()
         config.userContentController = contentController
-        
+        config.processPool = processPool1
         
         let preferences = WKPreferences()
         preferences.javaScriptEnabled = true
@@ -291,42 +294,80 @@ extension PokoroWebViewController: PokoroWebViewSendingDelegate {
         
         oAuthMediator?.getCodeSuccessClosure = { [weak self] code in
             self?.sendoAuthCode(value: code)
-            self?.webView.navigationDelegate = nil
-            self?.oAuthMediator = nil
         }
         
         oAuthMediator?.getCodeFailClosure = { [weak self] in
             self?.sendoAuthFailed()
-            self?.webView.navigationDelegate = nil
-            self?.oAuthMediator = nil
         }
         
-        webView.navigationDelegate = oAuthMediator
+
         
         // TODO: - update later. use ASWauth?? something
+        
+        auxSafari = SFSafariViewController(url: url)
+        self.present(auxSafari!, animated: true)
+        
+        /*
         let request = URLRequest(url: url)
-        webView.load(request)
+        
+        let config = WKWebViewConfiguration()
+        let processPool2 = WKProcessPool()
+        config.processPool = processPool2
+        
+        let secondWebView = WKWebView(frame: self.view.bounds, configuration: config)
+        self.view.addSubview(secondWebView)
+        secondWebView.navigationDelegate = oAuthMediator
+        secondWebView.load(request)
         
         
+        auxWebView = secondWebView
+         */
+        
+        DispatchQueue.main.asyncAfter(deadline: .now() + 10.0, execute: {
+//            self.auxSafari?.dismiss(animated: true)
+//            self.sendoAuthFailed()
+        })
     }
     
     private func sendoAuthCode(value: String) {
-        
-        // send value and nullify oAuthMediator
-        print("sendoAuthCode(value: String, sender: OAuthMediator)")
-        
-        let jsWithParam = "javascript:window.onLogin(\(value))"
-        webView.evaluateJavaScript(jsWithParam) { (result, error) in
-            if let error = error {
-                print("Error calling JS: \(error.localizedDescription)")
-            }
+        /*
+        auxWebView?.navigationDelegate = nil
+        if let auxWebView = auxWebView {
+            auxWebView.removeFromSuperview()
         }
+        auxWebView = nil
+        oAuthMediator = nil
+        */
         
-        isHandlingMessage = false
+        DispatchQueue.main.asyncAfter(deadline: .now() + 0.0, execute: {
+            // send value and nullify oAuthMediator
+            print("sendoAuthCode(value: String, sender: OAuthMediator)")
+            
+            self.webView.becomeFirstResponder()
+            
+            let jsWithParam = "javascript:window.onLogin(\(value))"
+            self.webView.evaluateJavaScript(jsWithParam) { (result, error) in
+                if let error = error {
+                    print("Error calling JS: \(error.localizedDescription)")
+                }
+            }
+            
+            self.isHandlingMessage = false
+        })
+        
         
     }
     
     private func sendoAuthFailed() {
+        /*
+        auxWebView?.navigationDelegate = nil
+        if let auxWebView = auxWebView {
+            auxWebView.removeFromSuperview()
+        }
+        auxWebView = nil
+        oAuthMediator = nil
+        */
+        
         // send value and nullify oAuthMediator
         print("sendoAuthFailed(sender: OAuthMediator)")
         
@@ -339,6 +380,8 @@ extension PokoroWebViewController: PokoroWebViewSendingDelegate {
         }
         
         isHandlingMessage = false
+        
+        
     }
     
     func sendConnected(sender: WebMessageController) {
