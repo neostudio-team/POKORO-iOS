@@ -10,7 +10,7 @@ import WebKit
 import Combine
 import AuthenticationServices
 
-class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKNavigationDelegate, WKUIDelegate, ASWebAuthenticationPresentationContextProviding {
+class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKUIDelegate, ASWebAuthenticationPresentationContextProviding {
     func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
         return self.view.window!
     }
@@ -27,6 +27,8 @@ class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKNavig
     
     private var disposables = Set<AnyCancellable>()
     
+    private var oAuthMediator: OAuthMediator?
+    
     override func viewDidLoad() {
         super.viewDidLoad()
         
@@ -36,6 +38,7 @@ class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKNavig
         
         let config = WKWebViewConfiguration()
         config.userContentController = contentController
+        
         
         let preferences = WKPreferences()
         preferences.javaScriptEnabled = true
@@ -61,6 +64,9 @@ class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKNavig
         },
         customSendSetting: function(jsonStr) {
             window.webkit.messageHandlers.Native.postMessage({action: 'customSendSetting', data: jsonStr});
+        },
+        startlogin: function(url) {
+            window.webkit.messageHandlers.Native.postMessage({action: 'startlogin', url: url});
         }
     };
     """
@@ -68,8 +74,14 @@ class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKNavig
         contentController.addUserScript(script)
         
         webView = WKWebView(frame: self.view.bounds, configuration: config)
-        webView.navigationDelegate = self
+//        webView.navigationDelegate = self
         self.view.addSubview(webView)
+        
+        webView.evaluateJavaScript("navigator.userAgent"){(result, error) in
+        let originUserAgent = result as! String
+            let agent = originUserAgent + " inApp"
+            self.webView.customUserAgent = agent
+        }
         
         let clientId = Configuration.CLIENT_ID_GOOGLE
         let clientSecret = Configuration.CLIENT_SECRET_GOOGLE
@@ -171,6 +183,7 @@ class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKNavig
     }
 */
     
+    
     // Handle messages received from JavaScript
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         
@@ -215,6 +228,12 @@ class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKNavig
 //                        customSendSetting(jsonStr: jsonStr)
                         print("customSendSetting message received")
                     }
+                case "startlogin":
+                    if let urlStr = messageBody["url"] as? String,
+                       let url = URL.init(string: urlStr) {
+                        receivedMessage = .startLogin(url: url)
+                      print("startlogin message received")
+                    }
                 default:
                     break
                 }
@@ -240,6 +259,10 @@ extension PokoroWebViewController {
 
 protocol PokoroWebViewSendingDelegate: class {
     
+    // MARK: - startLogIn() message is received
+    func updateWebviewUrlForOAuth(url: URL, sender: WebMessageController)
+    
+    
     // MARK: - connectPokoro() message is received
     func sendConnected(sender: WebMessageController)
     func sendConnectFailed(sender: WebMessageController)
@@ -259,6 +282,65 @@ protocol PokoroWebViewSendingDelegate: class {
 }
 
 extension PokoroWebViewController: PokoroWebViewSendingDelegate {
+    
+    func updateWebviewUrlForOAuth(url: URL, sender: WebMessageController) {
+        print("updateWebviewUrlForOAuth(url: URL, sender: WebMessageController)")
+        
+        // instantiate oAuthMediator to make it work
+        oAuthMediator = OAuthMediator()
+        
+        oAuthMediator?.getCodeSuccessClosure = { [weak self] code in
+            self?.sendoAuthCode(value: code)
+            self?.webView.navigationDelegate = nil
+            self?.oAuthMediator = nil
+        }
+        
+        oAuthMediator?.getCodeFailClosure = { [weak self] in
+            self?.sendoAuthFailed()
+            self?.webView.navigationDelegate = nil
+            self?.oAuthMediator = nil
+        }
+        
+        webView.navigationDelegate = oAuthMediator
+        
+        // TODO: - update later. use ASWauth?? something
+        let request = URLRequest(url: url)
+        webView.load(request)
+        
+        
+    }
+    
+    private func sendoAuthCode(value: String) {
+        
+        // send value and nullify oAuthMediator
+        print("sendoAuthCode(value: String, sender: OAuthMediator)")
+        
+        let jsWithParam = "javascript:window.onLogin(\(value))"
+        webView.evaluateJavaScript(jsWithParam) { (result, error) in
+            if let error = error {
+                print("Error calling JS: \(error.localizedDescription)")
+            }
+        }
+        
+        isHandlingMessage = false
+        
+    }
+    
+    private func sendoAuthFailed() {
+        // send value and nullify oAuthMediator
+        print("sendoAuthFailed(sender: OAuthMediator)")
+        
+        // Call back a JavaScript function with a parameter
+        let jsWithParam = "javascript:window.onLoginFail()"
+        webView.evaluateJavaScript(jsWithParam) { (result, error) in
+            if let error = error {
+                print("Error calling JS: \(error.localizedDescription)")
+            }
+        }
+        
+        isHandlingMessage = false
+    }
+    
     func sendConnected(sender: WebMessageController) {
         
         print("sendConnected(sender: WebMessageController)")

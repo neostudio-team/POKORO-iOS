@@ -25,7 +25,7 @@ class WebMessageController: NSObject {
     }
     
     enum ReceivedMessage {
-        case connectPokoro, disconnectPokoro, startWifiScan, wifiInputPassword(data: WifiInputPasswordData)
+        case connectPokoro, disconnectPokoro, startWifiScan, wifiInputPassword(data: WifiInputPasswordData), startLogin(url: URL)
     }
     
     private var state = State.initiated
@@ -37,6 +37,10 @@ class WebMessageController: NSObject {
     
     func messageReceived(_ message: ReceivedMessage) {
         switch message {
+        case .startLogin(let url):
+            // 1 simply call delegate function so that the webview handles that
+            doForStartLogin(url: url)
+            
         case .connectPokoro:
             // 1 Use BLEConnector to start Scan
             // 2 Upon completion, send either success or failure message
@@ -62,6 +66,10 @@ class WebMessageController: NSObject {
             // 3 Upon success, set state to init
             doForWifiInputPassword(data: data)
         }
+    }
+    
+    private func doForStartLogin(url: URL) {
+        self.delegate?.updateWebviewUrlForOAuth(url: url, sender: self)
     }
     
     private func doForConnectPokoro() {
