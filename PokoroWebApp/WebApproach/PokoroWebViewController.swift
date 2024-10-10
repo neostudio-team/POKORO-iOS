@@ -12,13 +12,9 @@ import AuthenticationServices
 import SafariServices
 
 class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKUIDelegate, ASWebAuthenticationPresentationContextProviding {
-    func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
-        return self.view.window!
-    }
-    
     
     private var webView: WKWebView!
-    private var auxSafari: SFSafariViewController?
+    private var auxSafari: ASWebAuthenticationSession?
     
     private let wkUserContentName = "Native"
     
@@ -250,6 +246,9 @@ class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKUIDel
         }
     }
 
+    func presentationAnchor(for session: ASWebAuthenticationSession) -> ASPresentationAnchor {
+        return self.view.window!
+    }
 }
 
 extension PokoroWebViewController {
@@ -300,33 +299,36 @@ extension PokoroWebViewController: PokoroWebViewSendingDelegate {
             self?.sendoAuthFailed()
         }
         
-
+        // use ASWebAuthenticationSession for authentication
+        let scheme = "auxSafariAuth"
         
-        // TODO: - update later. use ASWauth?? something
         
-        auxSafari = SFSafariViewController(url: url)
-        self.present(auxSafari!, animated: true)
+        if UIApplication.shared.canOpenURL(url) {
+            UIApplication.shared.open(url, options: [:], completionHandler: nil)
+        }
+        
         
         /*
-        let request = URLRequest(url: url)
+        auxSafari = ASWebAuthenticationSession(url: url, callbackURLScheme: scheme) { callbackURL, error in
+            guard error == nil, let callbackURL = callbackURL else {
+                // Handle error if any
+                print("Authentication failed with error: \(error?.localizedDescription ?? "Unknown error")")
+                return
+            }
+            
+            // Extract the authorization code from the callback URL
+            if let urlComponents = URLComponents(url: callbackURL, resolvingAgainstBaseURL: false),
+               let queryItems = urlComponents.queryItems,
+               let authorizationCode = queryItems.first(where: { $0.name == "code" })?.value {
+                print("Authorization Code: \(authorizationCode)")
+                // You can now use this authorization code to exchange for tokens
+            }
+        }
         
-        let config = WKWebViewConfiguration()
-        let processPool2 = WKProcessPool()
-        config.processPool = processPool2
-        
-        let secondWebView = WKWebView(frame: self.view.bounds, configuration: config)
-        self.view.addSubview(secondWebView)
-        secondWebView.navigationDelegate = oAuthMediator
-        secondWebView.load(request)
-        
-        
-        auxWebView = secondWebView
-         */
-        
-        DispatchQueue.main.asyncAfter(deadline: .now() + 10.0, execute: {
-//            self.auxSafari?.dismiss(animated: true)
-//            self.sendoAuthFailed()
-        })
+        auxSafari?.prefersEphemeralWebBrowserSession = true
+        auxSafari?.presentationContextProvider = self
+        auxSafari?.start()
+        */
     }
     
     private func sendoAuthCode(value: String) {
