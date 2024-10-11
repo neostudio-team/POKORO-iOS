@@ -49,6 +49,9 @@ class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKUIDel
         connectPokoro: function() {
             window.webkit.messageHandlers.Native.postMessage('connectPokoro');
         },
+        stopScan: function() {
+            window.webkit.messageHandlers.Native.postMessage('stopScan');
+        },
         disConnectPokoro: function() {
             window.webkit.messageHandlers.Native.postMessage('disConnectPokoro');
         },
@@ -81,13 +84,7 @@ class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKUIDel
             let agent = originUserAgent + " inApp"
             self.webView.customUserAgent = agent
         }
-        
-        let clientId = Configuration.CLIENT_ID_GOOGLE
-        let clientSecret = Configuration.CLIENT_SECRET_GOOGLE
-        let host = Configuration.LOGIN_URL
-        
-//        let url = URL(string:  host + "/?clientId=\(clientId)&type=ios")!
-        
+                
         // Load the HTML page
         let request = URLRequest(url: URL.init(string: "https://pokoro-temp.web.app")!)
 //        let request = URLRequest(url: url)
@@ -101,86 +98,6 @@ class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKUIDel
     override func viewDidLayoutSubviews() {
         webView.frame = self.view.bounds
     }
-    
-    override func viewDidAppear(_ animated: Bool) {
-//        startOAuthLogin()
-    }
-    /*
-    func startOAuthLogin() {
-        let authURL = URL(string: "https://ndp-dev.onthe.live:7443/oauth/v2/authorize?client_id=ioted_android_google&response_type=code&scope=openid&redirect_uri=https://pokoro-dev.onthe.live:444/loginCheck.html")!
-        
-        // Define your app's custom scheme to handle the callback
-        let scheme = "myapp"
-        
-        let session = ASWebAuthenticationSession(url: authURL, callbackURLScheme: scheme) { callbackURL, error in
-            guard error == nil, let callbackURL = callbackURL else {
-                // Handle error if any
-                print("Authentication failed with error: \(error?.localizedDescription ?? "Unknown error")")
-                return
-            }
-            
-            // Extract the authorization code from the callback URL
-            if let urlComponents = URLComponents(url: callbackURL, resolvingAgainstBaseURL: false),
-               let queryItems = urlComponents.queryItems,
-               let authorizationCode = queryItems.first(where: { $0.name == "code" })?.value {
-                print("Authorization Code: \(authorizationCode)")
-                // You can now use this authorization code to exchange for tokens
-            }
-        }
-        
-        session.presentationContextProvider = self
-        session.start()
-    }
-    
-    */
-    /*
-    func webView(_ webView: WKWebView, decidePolicyFor navigationAction: WKNavigationAction, decisionHandler: @escaping (WKNavigationActionPolicy) -> Void) {
-        let urlString = navigationAction.request.url?.absoluteString ?? ""
-
-        let clientId = Configuration.CLIENT_ID_GOOGLE
-        let clientSecret = Configuration.CLIENT_SECRET_GOOGLE
-        
-        if urlString.contains("ndplogin://") {
-            let point = urlString.range(of: "code=")
-            if let theRange = point {
-                let authCode = urlString.substring(from: theRange.upperBound)
-                var basic = Authenticator.AppCredential.basic(clientId: clientId,
-                                                              clientSecret: clientSecret)
-                
-                AuthService.GetToken.fetch(path: .init(),
-                                           parameters: nil,
-                                           httpHeaderParameters: .init(authorization: basic),
-                                           queryParameters: .init(grant_type: .authorization_code,
-                                                                 code: authCode))
-                    .receive(on: DispatchQueue.main)
-                    .sink { _ in
-                    } receiveValue: { [weak self] cred in
-                        guard let self = self else { return }
-                        var auth = cred
-                        auth.clientId = clientId
-                        auth.clientSecret = clientSecret
-//                        AppUserInfo.auth = auth
-//                        AppUserInfo.agreedTermsConditions = true
-                        
-                        if let email = cred.userId {
-//                            DBHelper.shared.initUser(email)
-                        }
-                        DispatchQueue.main.asyncAfter(deadline: .now()+1.4) {
-//                            LogoutHelper.returnToSplash()
-                        }
-                    }
-                    .store(in: &disposables)
-            }
-//            self.webView.removeFromSuperview()
-            decisionHandler(.allow)
-            return
-            
-        } else {
-            decisionHandler(.allow)
-            return
-        }
-    }
-*/
     
     
     // Handle messages received from JavaScript
@@ -197,6 +114,10 @@ class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKUIDel
                 if messageBody == "connectPokoro" {
                     receivedMessage = .connectPokoro
                     print("connectPokoro message received")
+                    
+                } else if messageBody == "stopScan" {
+                    receivedMessage = .stopScan
+                    print("stopScan message received")
                     
                 } else if messageBody == "disConnectPokoro" {
                     receivedMessage = .disconnectPokoro
@@ -300,16 +221,11 @@ extension PokoroWebViewController: PokoroWebViewSendingDelegate {
         }
         
         // use ASWebAuthenticationSession for authentication
-        let scheme = "auxSafariAuth"
+        let scheme = "pokorologin"
         
         
-        if UIApplication.shared.canOpenURL(url) {
-            UIApplication.shared.open(url, options: [:], completionHandler: nil)
-        }
-        
-        
-        /*
-        auxSafari = ASWebAuthenticationSession(url: url, callbackURLScheme: scheme) { callbackURL, error in
+        auxSafari = ASWebAuthenticationSession(url: url, callbackURLScheme: scheme) { [weak self] callbackURL, error in
+            
             guard error == nil, let callbackURL = callbackURL else {
                 // Handle error if any
                 print("Authentication failed with error: \(error?.localizedDescription ?? "Unknown error")")
@@ -322,56 +238,43 @@ extension PokoroWebViewController: PokoroWebViewSendingDelegate {
                let authorizationCode = queryItems.first(where: { $0.name == "code" })?.value {
                 print("Authorization Code: \(authorizationCode)")
                 // You can now use this authorization code to exchange for tokens
+                self?.sendoAuthCode(value: authorizationCode)
+            } else {
+                self?.sendoAuthFailed()
             }
+            
+            
+            self?.auxSafari = nil
         }
         
         auxSafari?.prefersEphemeralWebBrowserSession = true
         auxSafari?.presentationContextProvider = self
         auxSafari?.start()
-        */
+        
     }
     
     private func sendoAuthCode(value: String) {
-        /*
-        auxWebView?.navigationDelegate = nil
-        if let auxWebView = auxWebView {
-            auxWebView.removeFromSuperview()
-        }
-        auxWebView = nil
-        oAuthMediator = nil
-        */
         
-        DispatchQueue.main.asyncAfter(deadline: .now() + 0.0, execute: {
-            // send value and nullify oAuthMediator
-            print("sendoAuthCode(value: String, sender: OAuthMediator)")
-            
-            self.webView.becomeFirstResponder()
-            
-            let jsWithParam = "javascript:window.onLogin(\(value))"
-            self.webView.evaluateJavaScript(jsWithParam) { (result, error) in
-                if let error = error {
-                    print("Error calling JS: \(error.localizedDescription)")
-                }
+        // send value and nullify oAuthMediator
+        print("sendoAuthCode(value: String)")
+        
+        self.webView.becomeFirstResponder()
+        
+        
+        let jsWithParam = "javascript:window.onLogin(\"\(value)\")"
+        self.webView.evaluateJavaScript(jsWithParam) { (result, error) in
+            if let error = error {
+                print("Error calling JS: \(error.localizedDescription)")
             }
-            
-            self.isHandlingMessage = false
-        })
+        }
         
-        
+        self.isHandlingMessage = false
     }
     
     private func sendoAuthFailed() {
-        /*
-        auxWebView?.navigationDelegate = nil
-        if let auxWebView = auxWebView {
-            auxWebView.removeFromSuperview()
-        }
-        auxWebView = nil
-        oAuthMediator = nil
-        */
         
         // send value and nullify oAuthMediator
-        print("sendoAuthFailed(sender: OAuthMediator)")
+        print("sendoAuthFailed()")
         
         // Call back a JavaScript function with a parameter
         let jsWithParam = "javascript:window.onLoginFail()"
@@ -455,7 +358,7 @@ extension PokoroWebViewController: PokoroWebViewSendingDelegate {
         
         print("sendWifiScanFailed(msg: String, sender: WebMessageController)")
         
-        let jsWithParam = "javascript:window.onDeviceWifiScanFail(\(msg))"
+        let jsWithParam = "javascript:window.onDeviceWifiScanFail(\"\(msg)\")"
         webView.evaluateJavaScript(jsWithParam) { (result, error) in
             if let error = error {
                 print("Error calling JS: \(error.localizedDescription)")
@@ -483,7 +386,7 @@ extension PokoroWebViewController: PokoroWebViewSendingDelegate {
         
         print("sendWifiConnectFailed(msg: String, sender: WebMessageController)")
         
-        let jsWithParam = "javascript:window.onDeviceWifiConnectFail(\(msg))"
+        let jsWithParam = "javascript:window.onDeviceWifiConnectFail(\"\(msg)\")"
         webView.evaluateJavaScript(jsWithParam) { (result, error) in
             if let error = error {
                 print("Error calling JS: \(error.localizedDescription)")

@@ -25,7 +25,7 @@ class WebMessageController: NSObject {
     }
     
     enum ReceivedMessage {
-        case connectPokoro, disconnectPokoro, startWifiScan, wifiInputPassword(data: WifiInputPasswordData), startLogin(url: URL)
+        case stopScan, connectPokoro, disconnectPokoro, startWifiScan, wifiInputPassword(data: WifiInputPasswordData), startLogin(url: URL)
     }
     
     private var state = State.initiated
@@ -40,6 +40,10 @@ class WebMessageController: NSObject {
         case .startLogin(let url):
             // 1 simply call delegate function so that the webview handles that
             doForStartLogin(url: url)
+            
+        case .stopScan:
+            // 1 simply stop bluetooth scan
+            doForStopScan()
             
         case .connectPokoro:
             // 1 Use BLEConnector to start Scan
@@ -70,6 +74,10 @@ class WebMessageController: NSObject {
     
     private func doForStartLogin(url: URL) {
         self.delegate?.updateWebviewUrlForOAuth(url: url, sender: self)
+    }
+    
+    private func doForStopScan() {
+        bleConnectorForWeb.stopScan()
     }
     
     private func doForConnectPokoro() {

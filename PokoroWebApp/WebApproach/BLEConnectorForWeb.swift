@@ -26,15 +26,21 @@ class BLEConnectorForWeb: ESPDeviceConnectionDelegate {
     private (set) var theDevice: ESPDevice?
     private var connectionTimer: Timer?
     
-    private var completion: ((_ isSucceeded: Bool) -> (Void))?
+    private var allCompletion: ((_ isSucceeded: Bool) -> (Void))?
+    private var penScanCompletion: ((_ isSucceeded: Bool) -> (Void))?
     
-    func startScan(completion: ((_ isSucceeded: Bool) -> (Void))?) {
+    func startScan(allCompletion: ((_ isSucceeded: Bool) -> (Void))?) {
         
-        self.completion = completion
+        self.allCompletion = allCompletion
         
 //        theDevice?.disconnect()
         scan()
         print("start scan")
+    }
+    
+    func stopScan() {
+        ESPProvisionManager.shared.stopScan()
+        connectionTimer?.invalidate()
     }
     
     func disConnect() {
@@ -54,7 +60,7 @@ class BLEConnectorForWeb: ESPDeviceConnectionDelegate {
                     self?.connectionTimer?.invalidate()
                     
                     // need to call completion
-                    self?.completion?(false)
+                    self?.allCompletion?(false)
                 })
                 
                 
@@ -68,27 +74,27 @@ class BLEConnectorForWeb: ESPDeviceConnectionDelegate {
                         self?.theDevice = device
                         
                         // need to call completion
-                        self?.completion?(true)
+                        self?.allCompletion?(true)
                         
                     case let .failedToConnect(error):
                         
                         print("failed")
                         
                         // need to call completion
-                        self?.completion?(false)
+                        self?.allCompletion?(false)
                         
                     default:
                         print("default")
                         
                         // need to call completion
-                        self?.completion?(false)
+                        self?.allCompletion?(false)
                     }
                 }
 
             } else {
                 
                 // need to call completion
-                self.completion?(false)
+                self.allCompletion?(false)
             }
         }
     }
