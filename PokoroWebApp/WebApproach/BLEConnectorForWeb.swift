@@ -29,8 +29,9 @@ class BLEConnectorForWeb: ESPDeviceConnectionDelegate {
     private var allCompletion: ((_ isSucceeded: Bool) -> (Void))?
     private var penScanCompletion: ((_ isSucceeded: Bool) -> (Void))?
     
-    func startScan(allCompletion: ((_ isSucceeded: Bool) -> (Void))?) {
+    func startScan(penScanCompletion: ((_ isSucceeded: Bool) -> (Void))?, allCompletion: ((_ isSucceeded: Bool) -> (Void))?) {
         
+        self.penScanCompletion = penScanCompletion
         self.allCompletion = allCompletion
         
 //        theDevice?.disconnect()
@@ -45,6 +46,7 @@ class BLEConnectorForWeb: ESPDeviceConnectionDelegate {
     
     func disConnect() {
         theDevice?.disconnect()
+        connectionTimer?.invalidate()
     }
     
     private func scan() {
@@ -63,6 +65,7 @@ class BLEConnectorForWeb: ESPDeviceConnectionDelegate {
                     self?.allCompletion?(false)
                 })
                 
+                self.penScanCompletion?(true)
                 
                 device.connect(delegate: self) { [weak self] status in
                     

@@ -82,7 +82,16 @@ class WebMessageController: NSObject {
     
     private func doForConnectPokoro() {
         bleConnectorForWeb.startScan { [weak self] isSucceeded in
+            guard let self = self else { return }
             
+            DispatchQueue.main.async {
+                if isSucceeded {
+                    self.delegate?.sendConnecting(sender:self)
+                }
+            }
+            
+            
+        } allCompletion: { [weak self] isSucceeded in
             guard let self = self else { return }
             
             DispatchQueue.main.async {
@@ -93,7 +102,6 @@ class WebMessageController: NSObject {
                     self.delegate?.sendConnectFailed(sender: self)
                 }
             }
-            
         }
         
     }

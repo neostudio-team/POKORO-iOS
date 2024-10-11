@@ -187,6 +187,7 @@ protocol PokoroWebViewSendingDelegate: class {
     
     
     // MARK: - connectPokoro() message is received
+    func sendConnecting(sender: WebMessageController)
     func sendConnected(sender: WebMessageController)
     func sendConnectFailed(sender: WebMessageController)
     
@@ -257,18 +258,9 @@ extension PokoroWebViewController: PokoroWebViewSendingDelegate {
         
         // send value and nullify oAuthMediator
         print("sendoAuthCode(value: String)")
-        
-        self.webView.becomeFirstResponder()
-        
-        
         let jsWithParam = "javascript:window.onLogin(\"\(value)\")"
-        self.webView.evaluateJavaScript(jsWithParam) { (result, error) in
-            if let error = error {
-                print("Error calling JS: \(error.localizedDescription)")
-            }
-        }
-        
-        self.isHandlingMessage = false
+        send(jsScript: jsWithParam)
+        isHandlingMessage = false
     }
     
     private func sendoAuthFailed() {
@@ -278,15 +270,21 @@ extension PokoroWebViewController: PokoroWebViewSendingDelegate {
         
         // Call back a JavaScript function with a parameter
         let jsWithParam = "javascript:window.onLoginFail()"
-        webView.evaluateJavaScript(jsWithParam) { (result, error) in
-            if let error = error {
-                print("Error calling JS: \(error.localizedDescription)")
-            }
-        }
-        
+        send(jsScript: jsWithParam)
         isHandlingMessage = false
         
         
+    }
+    
+    func sendConnecting(sender: WebMessageController) {
+        print("sendConnecting(sender: WebMessageController)")
+        
+        // Call back a JavaScript function with a parameter
+        let jsWithParam = "javascript:window.onDeviceConnecting()"
+        send(jsScript: jsWithParam)
+        
+        // do not make isHandlingMessage to false
+        // sendConnected function call is going to be made instantly that will override
     }
     
     func sendConnected(sender: WebMessageController) {
@@ -295,12 +293,7 @@ extension PokoroWebViewController: PokoroWebViewSendingDelegate {
         
         // Call back a JavaScript function with a parameter
         let jsWithParam = "javascript:window.onDeviceConnected()"
-        webView.evaluateJavaScript(jsWithParam) { (result, error) in
-            if let error = error {
-                print("Error calling JS: \(error.localizedDescription)")
-            }
-        }
-        
+        send(jsScript: jsWithParam)
         isHandlingMessage = false
     }
     
@@ -309,12 +302,7 @@ extension PokoroWebViewController: PokoroWebViewSendingDelegate {
         print("sendConnectFailed(sender: WebMessageController)")
         
         let jsWithParam = "javascript:window.onDeviceConnectFail()"
-        webView.evaluateJavaScript(jsWithParam) { (result, error) in
-            if let error = error {
-                print("Error calling JS: \(error.localizedDescription)")
-            }
-        }
-        
+        send(jsScript: jsWithParam)
         isHandlingMessage = false
     }
     
@@ -323,12 +311,7 @@ extension PokoroWebViewController: PokoroWebViewSendingDelegate {
         print("sendDisconnected(sender: WebMessageController)")
         
         let jsWithParam = "javascript:window.onDeviceDisConnected()"
-        webView.evaluateJavaScript(jsWithParam) { (result, error) in
-            if let error = error {
-                print("Error calling JS: \(error.localizedDescription)")
-            }
-        }
-        
+        send(jsScript: jsWithParam)
         isHandlingMessage = false
     }
     
@@ -342,13 +325,7 @@ extension PokoroWebViewController: PokoroWebViewSendingDelegate {
                 
 //                let c = "[{ \"wifiName\": \"HomeWiFi\", \"security\": 1, \"rssi\": -50 }]"
                 let jsCode = "javascript:window.onDeviceWifiScanResult(\(jsonString));"
-                
-                // Execute the JavaScript code in the web view
-                webView.evaluateJavaScript(jsCode) { (result, error) in
-                    if let error = error {
-                        print("Error calling JS: \(error.localizedDescription)")
-                    }
-                }
+                send(jsScript: jsCode)
             }
             
             isHandlingMessage = false
@@ -359,12 +336,7 @@ extension PokoroWebViewController: PokoroWebViewSendingDelegate {
         print("sendWifiScanFailed(msg: String, sender: WebMessageController)")
         
         let jsWithParam = "javascript:window.onDeviceWifiScanFail(\"\(msg)\")"
-        webView.evaluateJavaScript(jsWithParam) { (result, error) in
-            if let error = error {
-                print("Error calling JS: \(error.localizedDescription)")
-            }
-        }
-        
+        send(jsScript: jsWithParam)
         isHandlingMessage = false
     }
     
@@ -373,12 +345,7 @@ extension PokoroWebViewController: PokoroWebViewSendingDelegate {
         print("sendWifiConnected(sender: WebMessageController)")
         
         let jsWithParam = "javascript:window.onDeviceWifiConnected()"
-        webView.evaluateJavaScript(jsWithParam) { (result, error) in
-            if let error = error {
-                print("Error calling JS: \(error.localizedDescription)")
-            }
-        }
-        
+        send(jsScript: jsWithParam)
         isHandlingMessage = false
     }
     
@@ -387,15 +354,18 @@ extension PokoroWebViewController: PokoroWebViewSendingDelegate {
         print("sendWifiConnectFailed(msg: String, sender: WebMessageController)")
         
         let jsWithParam = "javascript:window.onDeviceWifiConnectFail(\"\(msg)\")"
-        webView.evaluateJavaScript(jsWithParam) { (result, error) in
+        send(jsScript: jsWithParam)
+        isHandlingMessage = false
+    }
+    
+    private func send(jsScript:String) {
+        webView.evaluateJavaScript(jsScript) { (result, error) in
             if let error = error {
                 print("Error calling JS: \(error.localizedDescription)")
             }
         }
         
-        isHandlingMessage = false
     }
-    
     
 }
 
