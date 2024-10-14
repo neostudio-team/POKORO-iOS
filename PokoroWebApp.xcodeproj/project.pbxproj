@@ -33,7 +33,7 @@
 		F67280602CB3A215003ACF11 /* PokoroWebViewController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F672805D2CB3A215003ACF11 /* PokoroWebViewController.swift */; };
 		F67280612CB3A215003ACF11 /* WebMessageController.swift in Sources */ = {isa = PBXBuildFile; fileRef = F672805E2CB3A215003ACF11 /* WebMessageController.swift */; };
 		F67280642CB3D3B8003ACF11 /* WifiConnector.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67280632CB3D3B8003ACF11 /* WifiConnector.swift */; };
-		F67280672CB77BEC003ACF11 /* OAuthMediator.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67280662CB77BDF003ACF11 /* OAuthMediator.swift */; };
+		F67280692CB90870003ACF11 /* PokoroPenComm.swift in Sources */ = {isa = PBXBuildFile; fileRef = F67280682CB90868003ACF11 /* PokoroPenComm.swift */; };
 /* End PBXBuildFile section */
 
 /* Begin PBXContainerItemProxy section */
@@ -91,7 +91,7 @@
 		F672805E2CB3A215003ACF11 /* WebMessageController.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WebMessageController.swift; sourceTree = "<group>"; };
 		F67280622CB3A27A003ACF11 /* PokoroWebApp.entitlements */ = {isa = PBXFileReference; lastKnownFileType = text.plist.entitlements; path = PokoroWebApp.entitlements; sourceTree = "<group>"; };
 		F67280632CB3D3B8003ACF11 /* WifiConnector.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = WifiConnector.swift; sourceTree = "<group>"; };
-		F67280662CB77BDF003ACF11 /* OAuthMediator.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = OAuthMediator.swift; sourceTree = "<group>"; };
+		F67280682CB90868003ACF11 /* PokoroPenComm.swift */ = {isa = PBXFileReference; lastKnownFileType = sourcecode.swift; path = PokoroPenComm.swift; sourceTree = "<group>"; };
 /* End PBXFileReference section */
 
 /* Begin PBXFrameworksBuildPhase section */
@@ -221,21 +221,13 @@
 		F67280412CB3A205003ACF11 /* WebApproach */ = {
 			isa = PBXGroup;
 			children = (
-				F67280652CB77BD9003ACF11 /* OAuth */,
+				F67280682CB90868003ACF11 /* PokoroPenComm.swift */,
 				F672805C2CB3A215003ACF11 /* BLEConnectorForWeb.swift */,
 				F672805D2CB3A215003ACF11 /* PokoroWebViewController.swift */,
 				F672805E2CB3A215003ACF11 /* WebMessageController.swift */,
 				F67280632CB3D3B8003ACF11 /* WifiConnector.swift */,
 			);
 			path = WebApproach;
-			sourceTree = "<group>";
-		};
-		F67280652CB77BD9003ACF11 /* OAuth */ = {
-			isa = PBXGroup;
-			children = (
-				F67280662CB77BDF003ACF11 /* OAuthMediator.swift */,
-			);
-			path = OAuth;
 			sourceTree = "<group>";
 		};
 /* End PBXGroup section */
@@ -480,9 +472,9 @@
 				F67280642CB3D3B8003ACF11 /* WifiConnector.swift in Sources */,
 				F67280312CB3A02B003ACF11 /* AppDelegate.swift in Sources */,
 				F67280322CB3A02B003ACF11 /* SceneDelegate.swift in Sources */,
-				F67280672CB77BEC003ACF11 /* OAuthMediator.swift in Sources */,
 				F672805F2CB3A215003ACF11 /* BLEConnectorForWeb.swift in Sources */,
 				F67280602CB3A215003ACF11 /* PokoroWebViewController.swift in Sources */,
+				F67280692CB90870003ACF11 /* PokoroPenComm.swift in Sources */,
 				F67280612CB3A215003ACF11 /* WebMessageController.swift in Sources */,
 				F67280332CB3A02B003ACF11 /* ViewController.swift in Sources */,
 				F672804F2CB3A210003ACF11 /* JWTDecode.swift in Sources */,

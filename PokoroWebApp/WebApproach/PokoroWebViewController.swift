@@ -20,12 +20,10 @@ class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKUIDel
     
     private var webMessageController = WebMessageController()
     
-    private var isHandlingMessage = false
+//    private var isHandlingMessage = false
     private var popupWebView: WKWebView!
     
     private var disposables = Set<AnyCancellable>()
-    
-    private var oAuthMediator: OAuthMediator?
     
     override func viewDidLoad() {
         super.viewDidLoad()
@@ -84,7 +82,7 @@ class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKUIDel
             let agent = originUserAgent + " inApp"
             self.webView.customUserAgent = agent
         }
-                
+        
         // Load the HTML page
         let request = URLRequest(url: URL.init(string: "https://pokoro-temp.web.app")!)
 //        let request = URLRequest(url: url)
@@ -103,7 +101,7 @@ class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKUIDel
     // Handle messages received from JavaScript
     func userContentController(_ userContentController: WKUserContentController, didReceive message: WKScriptMessage) {
         
-        guard isHandlingMessage == false else { return }
+//        guard isHandlingMessage == false else { return }
         
         if message.name == wkUserContentName {
             
@@ -146,6 +144,7 @@ class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKUIDel
                 case "customSendSetting":
                     if let jsonStr = messageBody["data"] as? String {
 //                        customSendSetting(jsonStr: jsonStr)
+                        receivedMessage = .setCustomSetting(jsonStr: jsonStr)
                         print("customSendSetting message received")
                     }
                 case "startlogin":
@@ -160,7 +159,7 @@ class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKUIDel
             }
             
             if let receivedMessage  = receivedMessage {
-                isHandlingMessage = true
+//                isHandlingMessage = true
                 webMessageController.messageReceived(receivedMessage)
             }
             
@@ -194,6 +193,10 @@ protocol PokoroWebViewSendingDelegate: class {
     // MARK: - disConnectPokoro() message is received
     func sendDisconnected(sender: WebMessageController)
     
+    // MARK: - custom data
+    func sendPokoroStatus(status:String, sender: WebMessageController)
+    func sendCustomSettingResult(result: String, sender: WebMessageController)
+    
     // MARK: - startWifiScan() message is received
     func sendWifiScanResult(result: [WebMessageController.PokoroWifiData], sender: WebMessageController)
     
@@ -210,20 +213,9 @@ extension PokoroWebViewController: PokoroWebViewSendingDelegate {
     func updateWebviewUrlForOAuth(url: URL, sender: WebMessageController) {
         print("updateWebviewUrlForOAuth(url: URL, sender: WebMessageController)")
         
-        // instantiate oAuthMediator to make it work
-        oAuthMediator = OAuthMediator()
-        
-        oAuthMediator?.getCodeSuccessClosure = { [weak self] code in
-            self?.sendoAuthCode(value: code)
-        }
-        
-        oAuthMediator?.getCodeFailClosure = { [weak self] in
-            self?.sendoAuthFailed()
-        }
         
         // use ASWebAuthenticationSession for authentication
         let scheme = "pokorologin"
-        
         
         auxSafari = ASWebAuthenticationSession(url: url, callbackURLScheme: scheme) { [weak self] callbackURL, error in
             
@@ -260,7 +252,7 @@ extension PokoroWebViewController: PokoroWebViewSendingDelegate {
         print("sendoAuthCode(value: String)")
         let jsWithParam = "javascript:window.onLogin(\"\(value)\")"
         send(jsScript: jsWithParam)
-        isHandlingMessage = false
+//        isHandlingMessage = false
     }
     
     private func sendoAuthFailed() {
@@ -271,7 +263,7 @@ extension PokoroWebViewController: PokoroWebViewSendingDelegate {
         // Call back a JavaScript function with a parameter
         let jsWithParam = "javascript:window.onLoginFail()"
         send(jsScript: jsWithParam)
-        isHandlingMessage = false
+//        isHandlingMessage = false
         
         
     }
@@ -294,7 +286,7 @@ extension PokoroWebViewController: PokoroWebViewSendingDelegate {
         // Call back a JavaScript function with a parameter
         let jsWithParam = "javascript:window.onDeviceConnected()"
         send(jsScript: jsWithParam)
-        isHandlingMessage = false
+//        isHandlingMessage = false
     }
     
     func sendConnectFailed(sender: WebMessageController) {
@@ -303,7 +295,29 @@ extension PokoroWebViewController: PokoroWebViewSendingDelegate {
         
         let jsWithParam = "javascript:window.onDeviceConnectFail()"
         send(jsScript: jsWithParam)
-        isHandlingMessage = false
+//        isHandlingMessage = false
+    }
+    
+    func sendPokoroStatus(status:String, sender: WebMessageController) {
+        
+        print("sendPokoroStatus(sender: WebMessageController)")
+        
+        let cleanedString = status.replacingOccurrences(of: "\0", with: "")
+        
+        let jsWithParam = "javascript:window.onPokoroStatus(\(cleanedString))"
+        send(jsScript: jsWithParam)
+//        isHandlingMessage = false
+    }
+    
+    func sendCustomSettingResult(result: String, sender: WebMessageController) {
+        
+        print("sendCustomSettingResult(result: String, sender: WebMessageController)")
+        
+        let cleanedString = result.replacingOccurrences(of: "\0", with: "")
+        
+        let jsWithParam = "javascript:window.onCustomSendResult(\(cleanedString))"
+        send(jsScript: jsWithParam)
+        
     }
     
     func sendDisconnected(sender: WebMessageController) {
@@ -312,7 +326,7 @@ extension PokoroWebViewController: PokoroWebViewSendingDelegate {
         
         let jsWithParam = "javascript:window.onDeviceDisConnected()"
         send(jsScript: jsWithParam)
-        isHandlingMessage = false
+//        isHandlingMessage = false
     }
     
     func sendWifiScanResult(result: [WebMessageController.PokoroWifiData], sender: WebMessageController) {
@@ -328,7 +342,7 @@ extension PokoroWebViewController: PokoroWebViewSendingDelegate {
                 send(jsScript: jsCode)
             }
             
-            isHandlingMessage = false
+//            isHandlingMessage = false
     }
     
     func sendWifiScanFailed(msg: String, sender: WebMessageController) {
@@ -337,7 +351,7 @@ extension PokoroWebViewController: PokoroWebViewSendingDelegate {
         
         let jsWithParam = "javascript:window.onDeviceWifiScanFail(\"\(msg)\")"
         send(jsScript: jsWithParam)
-        isHandlingMessage = false
+//        isHandlingMessage = false
     }
     
     func sendWifiConnected(sender: WebMessageController) {
@@ -346,7 +360,7 @@ extension PokoroWebViewController: PokoroWebViewSendingDelegate {
         
         let jsWithParam = "javascript:window.onDeviceWifiConnected()"
         send(jsScript: jsWithParam)
-        isHandlingMessage = false
+//        isHandlingMessage = false
     }
     
     func sendWifiConnectFailed(msg: String, sender: WebMessageController) {
@@ -355,7 +369,7 @@ extension PokoroWebViewController: PokoroWebViewSendingDelegate {
         
         let jsWithParam = "javascript:window.onDeviceWifiConnectFail(\"\(msg)\")"
         send(jsScript: jsWithParam)
-        isHandlingMessage = false
+//        isHandlingMessage = false
     }
     
     private func send(jsScript:String) {
