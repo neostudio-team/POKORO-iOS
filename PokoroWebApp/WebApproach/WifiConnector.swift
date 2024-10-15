@@ -14,6 +14,8 @@ class WifiConnector {
     var threadOpetationalDataset: Data!
     var espDevice: ESPDevice!
     
+    private var connectionTimer: Timer?
+    
     init(ssid: String!, passphrase: String!, threadOpetationalDataset: Data!, step1Failed: Bool = false, espDevice: ESPDevice!) {
         self.ssid = ssid
         self.passphrase = passphrase
@@ -22,6 +24,18 @@ class WifiConnector {
     }
     
     func startProvisioning(completion:((_ status: ESPProvisionStatus) -> (Void))?) {
+        
+        print("connectionTimer initiated")
+        connectionTimer?.invalidate()
+        connectionTimer = Timer.init(timeInterval: 10.0, repeats: false, block: { [weak self] timer in
+            
+            print("connectionTimer fired")
+            self?.connectionTimer?.invalidate()
+            
+            // need to call completion
+            completion?(.failure(.unknownError))
+        })
+        RunLoop.main.add(connectionTimer!, forMode: .common)
         
         espDevice.provision(ssid: self.ssid, passPhrase: self.passphrase, threadOperationalDataset: self.threadOpetationalDataset) { status in
             

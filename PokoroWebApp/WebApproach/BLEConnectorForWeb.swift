@@ -11,7 +11,20 @@ import Foundation
 import ESPProvision
 import Combine
 
-class BLEConnectorForWeb: ESPDeviceConnectionDelegate {
+class BLEConnectorForWeb: ESPDeviceConnectionDelegate, ESPBLEDelegate {
+    func peripheralConnected() {
+        print("peripheralConnected()")
+    }
+    
+    func peripheralDisconnected(peripheral: CBPeripheral, error: (any Error)?) {
+        print("peripheralDisconnected(peripheral: CBPeripheral, error: (any Error)?)")
+        NotificationCenter.default.post(name: .bleDisConnected, object: nil)
+    }
+    
+    func peripheralFailedToConnect(peripheral: CBPeripheral?, error: (any Error)?) {
+        print("peripheralFailedToConnect(peripheral: CBPeripheral?, error: (any Error)?)")
+    }
+    
     func getProofOfPossesion(forDevice: ESPDevice, completionHandler: @escaping (String) -> Void) {
         completionHandler("abcd1234")
     }
@@ -23,7 +36,7 @@ class BLEConnectorForWeb: ESPDeviceConnectionDelegate {
     private let prefix: String = "Prov"
     private var bleDevices:[ESPDevice]?
     
-    private (set) var theDevice: ESPDevice?
+    private (set) weak var theDevice: ESPDevice?
     private var connectionTimer: Timer?
     
     private var allCompletion: ((_ isSucceeded: Bool) -> (Void))?
@@ -34,7 +47,6 @@ class BLEConnectorForWeb: ESPDeviceConnectionDelegate {
         self.penScanCompletion = penScanCompletion
         self.allCompletion = allCompletion
         
-//        theDevice?.disconnect()
         scan()
         print("start scan")
     }
@@ -47,6 +59,7 @@ class BLEConnectorForWeb: ESPDeviceConnectionDelegate {
     func disConnect() {
         theDevice?.disconnect()
         connectionTimer?.invalidate()
+        theDevice = nil
     }
     
     private func scan() {
@@ -58,12 +71,19 @@ class BLEConnectorForWeb: ESPDeviceConnectionDelegate {
             if let device = bleDevices?.first {
                 device.security = .secure2
                 
-                connectionTimer = Timer.init(timeInterval: 10.0, repeats: false, block: { [weak self] timer in
+                connectionTimer?.invalidate()
+                
+                print("connectionTimer initiated")
+                connectionTimer = Timer.init(timeInterval: 5.0, repeats: false, block: { [weak self] timer in
+                    
+                    print("connectionTimer fired")
+                    
                     self?.connectionTimer?.invalidate()
                     
                     // need to call completion
                     self?.allCompletion?(false)
                 })
+                RunLoop.main.add(connectionTimer!, forMode: .common)
                 
                 self.penScanCompletion?(true)
                 
@@ -75,6 +95,7 @@ class BLEConnectorForWeb: ESPDeviceConnectionDelegate {
                     case .connected:
                         print("succeeded")
                         self?.theDevice = device
+                        self?.theDevice?.bleDelegate = self
                         
                         // need to call completion
                         self?.allCompletion?(true)
@@ -102,4 +123,8 @@ class BLEConnectorForWeb: ESPDeviceConnectionDelegate {
         }
     }
     
+}
+
+extension Notification.Name {
+    static let bleDisConnected = Notification.Name("bleDisConnected")
 }

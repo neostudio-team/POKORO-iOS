@@ -70,6 +70,8 @@ class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKUIDel
         }
     };
     """
+        
+        
         let script = WKUserScript(source: scriptSource, injectionTime: .atDocumentStart, forMainFrameOnly: false)
         contentController.addUserScript(script)
         
@@ -138,12 +140,11 @@ class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKUIDel
                     }
                 case "customSendToken":
                     if let jsonStr = messageBody["data"] as? String {
-//                        customSendToken(jsonStr: jsonStr)
+                        receivedMessage = .setCustomToken(jsonStr: jsonStr)
                         print("customSendToken message received")
                     }
                 case "customSendSetting":
                     if let jsonStr = messageBody["data"] as? String {
-//                        customSendSetting(jsonStr: jsonStr)
                         receivedMessage = .setCustomSetting(jsonStr: jsonStr)
                         print("customSendSetting message received")
                     }
@@ -222,6 +223,7 @@ extension PokoroWebViewController: PokoroWebViewSendingDelegate {
             guard error == nil, let callbackURL = callbackURL else {
                 // Handle error if any
                 print("Authentication failed with error: \(error?.localizedDescription ?? "Unknown error")")
+                self?.sendoAuthFailed()
                 return
             }
             
@@ -304,7 +306,7 @@ extension PokoroWebViewController: PokoroWebViewSendingDelegate {
         
         let cleanedString = status.replacingOccurrences(of: "\0", with: "")
         
-        let jsWithParam = "javascript:window.onPokoroStatus(\(cleanedString))"
+        let jsWithParam = "javascript:window.onPokoroStatus('\(cleanedString)')"
         send(jsScript: jsWithParam)
 //        isHandlingMessage = false
     }
@@ -315,7 +317,7 @@ extension PokoroWebViewController: PokoroWebViewSendingDelegate {
         
         let cleanedString = result.replacingOccurrences(of: "\0", with: "")
         
-        let jsWithParam = "javascript:window.onCustomSendResult(\(cleanedString))"
+        let jsWithParam = "javascript:window.onCustomSendResult('\(cleanedString)')"
         send(jsScript: jsWithParam)
         
     }

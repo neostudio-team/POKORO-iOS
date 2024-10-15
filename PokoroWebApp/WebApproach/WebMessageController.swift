@@ -26,7 +26,7 @@ class WebMessageController: NSObject {
     
     enum ReceivedMessage {
         case stopScan, connectPokoro, disconnectPokoro, startWifiScan, wifiInputPassword(data: WifiInputPasswordData), startLogin(url: URL)
-        case setCustomSetting(jsonStr: String)
+        case setCustomSetting(jsonStr: String), setCustomToken(jsonStr: String)
     }
     
     private var state = State.initiated
@@ -37,6 +37,13 @@ class WebMessageController: NSObject {
     private var wifiConnector: WifiConnector?
     
     private var penCommManager: PokoroPenCommManager?
+    
+    override init() {
+        super.init()
+        
+        // register notification
+        NotificationCenter.default.addObserver(self, selector: #selector(bleDisconnected(_:)), name: .bleDisConnected, object: nil)
+    }
     
     func messageReceived(_ message: ReceivedMessage) {
         switch message {
@@ -77,6 +84,11 @@ class WebMessageController: NSObject {
             // 1 communicate with the pen to set the value
             // 2 send the result to the web
             doForSetCustomSetting(jsonStr: jsonStr)
+        
+        case .setCustomToken(let jsonStr):
+            // 1 communicate with the pen to set the token value
+            // 2 send the result to the web
+            doForSetCustomToken(jsonStr: jsonStr)
         }
     }
     
@@ -100,23 +112,26 @@ class WebMessageController: NSObject {
             
             
         } allCompletion: { [weak self] isSucceeded in
+            
+            print("allCompletion \(isSucceeded)")
+            
             guard let self = self else { return }
+            
+            print("allCompletion self guard")
             
             if let device = self.bleConnectorForWeb.theDevice {
                 penCommManager = PokoroPenCommManager(device: device)
                 penCommManager?.askStatus(completion: { response in
+                    
+                    print("penCommManager?.askStatus(completion: { response in")
                     
                     DispatchQueue.main.async {
                         if let response = response {
                             
                             self.delegate?.sendPokoroStatus(status: response, sender: self)
                             
-                            self.delegate?.sendConnected(sender: self)
-                            self.state = .connected(wifiList: [PokoroWifiData]())
-
-                            
                         } else {
-                            self.delegate?.sendConnectFailed(sender: self)
+                            self.failPenConnectAndSendWebMessage()
                         }
                         
                     }
@@ -124,6 +139,8 @@ class WebMessageController: NSObject {
                 })
                 
             } else {
+                print("sendConnectFailed(sender: self)")
+                
                 DispatchQueue.main.async {
                     self.delegate?.sendConnectFailed(sender: self)
                 }
@@ -133,6 +150,19 @@ class WebMessageController: NSObject {
         
     }
     
+    private func failPenConnectAndSendWebMessage() {
+        DispatchQueue.main.async {
+            self.bleConnectorForWeb.disConnect()
+            self.delegate?.sendConnectFailed(sender: self)
+            self.state = .initiated
+        }
+        
+    }
+    
+    /// in case pokoro2 device is turned off
+    @objc func bleDisconnected(_ notification: Notification) {
+        doForDisconnectPokoro()
+    }
     
     private func doForDisconnectPokoro() {
         
@@ -207,12 +237,48 @@ class WebMessageController: NSObject {
             penCommManager = PokoroPenCommManager(device: device)
             penCommManager?.setCustomSetting(jsonString: jsonStr, completion: { response in
                 DispatchQueue.main.async {
-                    self.delegate?.sendCustomSettingResult(result: response ?? "", sender: self)
+                    
+                    guard let response = response else {
+                        self.failPenConnectAndSendWebMessage()
+                        return
+                    }
+                    
+                    self.delegate?.sendCustomSettingResult(result: response, sender: self)
                 }
             })
             
+        } else {
+            failPenConnectAndSendWebMessage()
         }
         
-        // TODO: - what if device doesn't exist for some reasons
+        
+    }
+    
+    private func doForSetCustomToken(jsonStr: String) {
+        
+        print("doForSetCustomToken(jsonStr: String)")
+        
+        if let device = self.penCommManager?.device {
+            penCommManager = PokoroPenCommManager(device: device)
+            
+            
+            
+            penCommManager?.setCustomToken(jsonString: jsonStr, completion: { success in
+                DispatchQueue.main.async {
+                    
+                    if success == false {
+                        self.failPenConnectAndSendWebMessage()
+                        return
+                    }
+                    
+                    self.delegate?.sendConnected(sender: self)
+                    self.state = .connected(wifiList: [PokoroWifiData]())
+                    
+                }
+            })
+            
+        } else {
+            failPenConnectAndSendWebMessage()
+        }
     }
 }
