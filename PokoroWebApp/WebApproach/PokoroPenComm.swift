@@ -98,8 +98,6 @@ struct PokoroPenCommManager {
         }
         
         
-        
-        
         // nested function
         func sendDataMultipleTimes(tokenIndex: Int, maxAttempts: Int) {
             
@@ -108,31 +106,7 @@ struct PokoroPenCommManager {
             // When
             if currTokenIndex >= maxAttempts {
                 
-                // TODO: - send auth token to pen
-                guard let refreshJsonData = createRefreshTokenJSONData(refreshToken: refreshToken) else {
-                    completion?(false)
-                    return
-                }
-                
-                device.sendData(path: endpoint, data: refreshJsonData) { responseData, error in
-                    
-                    if let responseData = responseData,
-                       let responseString = String(data: responseData, encoding: .utf8)?.replacingOccurrences(of: "\0", with: ""),
-                       let cleanedData = responseString.data(using: .utf8),
-                       let jsonObject = try? JSONSerialization.jsonObject(with: cleanedData) as? [String:Any],
-                        let status = jsonObject["status"] as? String,
-                        status == "success" {
-                        
-                        completion?(true)
-                        return
-                        
-                    } else {
-                        completion?(false)
-                        return
-                    }
-                    
-                }
-                
+                completion?(true)
                 return
             }
             
@@ -163,9 +137,30 @@ struct PokoroPenCommManager {
             }
         }
         
-        // Start sending data
-        sendDataMultipleTimes(tokenIndex: currTokenIndex, maxAttempts: totalTokenCount)
         
+        // Start by sending the refresh token
+        guard let refreshJsonData = createRefreshTokenJSONData(refreshToken: refreshToken) else {
+            completion?(false)
+            return
+        }
+        
+        device.sendData(path: endpoint, data: refreshJsonData) { responseData, error in
+            
+            if let responseData = responseData,
+               let responseString = String(data: responseData, encoding: .utf8)?.replacingOccurrences(of: "\0", with: ""),
+               let cleanedData = responseString.data(using: .utf8),
+               let jsonObject = try? JSONSerialization.jsonObject(with: cleanedData) as? [String: Any],
+                let status = jsonObject["status"] as? String,
+                status == "success" {
+                
+                // If refresh is successful, send token data multiple times
+                sendDataMultipleTimes(tokenIndex: currTokenIndex, maxAttempts: totalTokenCount)
+                
+            } else {
+                completion?(false)
+                return
+            }
+        }
     }
     
     // Assuming you have a helper function like this:
