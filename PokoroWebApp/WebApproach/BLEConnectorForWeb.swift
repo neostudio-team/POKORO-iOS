@@ -26,14 +26,25 @@ class BLEConnectorForWeb: ESPDeviceConnectionDelegate, ESPBLEDelegate {
     }
     
     func getProofOfPossesion(forDevice: ESPDevice, completionHandler: @escaping (String) -> Void) {
-        completionHandler("abcd1234")
+        
+        if forDevice.name.lowercased().starts(with: prefix2.lowercased()) {
+            completionHandler(pin_new)
+            return
+        }
+        
+        completionHandler(pin_old)
     }
     
     func getUsername(forDevice: ESPDevice, completionHandler: @escaping (String?) -> Void) {
         
     }
     
-    private let prefix: String = "Prov"
+    private let prefix1: String = "Prov_"
+    private let prefix2: String = "Pokoro2_"
+    
+    private let pin_old: String = "abcd1234"
+    private let pin_new: String = "vhzhfh2#!"
+    
     private var bleDevices:[ESPDevice]?
     
     private (set) weak var theDevice: ESPDevice?
@@ -63,12 +74,17 @@ class BLEConnectorForWeb: ESPDeviceConnectionDelegate, ESPBLEDelegate {
     }
     
     private func scan() {
-        ESPProvisionManager.shared.searchESPDevices(devicePrefix: prefix, transport: .ble) { [unowned self] bleDevices, error in
+        ESPProvisionManager.shared.searchESPDevices(devicePrefix: "", transport: .ble) { [unowned self] bleDevices, error in
             
-            self.bleDevices = bleDevices
+            bleDevices?.forEach({
+                print($0.name)
+            })
+            
+            
+            self.bleDevices = bleDevices?.filter({$0.name.lowercased().starts(with: prefix1.lowercased()) || $0.name.lowercased().starts(with: prefix2.lowercased())})
             
             // try connecting first device
-            if let device = bleDevices?.first {
+            if let device = self.bleDevices?.first {
                 device.security = .secure2
                 
                 connectionTimer?.invalidate()
