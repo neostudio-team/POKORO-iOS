@@ -36,5 +36,7 @@
 			</array>
 		</dict>
 	</array>
+    <key>CFBundleDisplayName</key>
+    <string>POKORO</string>
 </dict>
 </plist>
