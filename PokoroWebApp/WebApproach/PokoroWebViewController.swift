@@ -67,6 +67,9 @@ class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKUIDel
         },
         startlogin: function(url) {
             window.webkit.messageHandlers.Native.postMessage({action: 'startlogin', url: url});
+        },
+        callBrowser: function(url) {
+            window.webkit.messageHandlers.Native.postMessage({action: 'callBrowser', url: url});
         }
     };
     """
@@ -86,6 +89,8 @@ class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKUIDel
         }
         
         // Load the HTML page
+//        let request = URLRequest(url: URL.init(string: "https://pokoro-temp.web.app")!)
+
         let request = URLRequest(url: URL.init(string: "https://pokoro-dev.onthe.live")!)
 //        let request = URLRequest(url: url)
 //        let request = URLRequest(url: URL.init(string: "http://localhost:3000")!)
@@ -154,6 +159,12 @@ class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKUIDel
                         receivedMessage = .startLogin(url: url)
                       print("startlogin message received")
                     }
+                case "callBrowser":
+                    if let urlStr = messageBody["url"] as? String,
+                       let url = URL.init(string: urlStr) {
+                        receivedMessage = .callBrowser(url: url)
+                      print("startlogin message received")
+                    }
                 default:
                     break
                 }
@@ -207,6 +218,10 @@ protocol PokoroWebViewSendingDelegate: class {
     func sendWifiConnected(sender: WebMessageController)
     
     func sendWifiConnectFailed(msg: String, sender: WebMessageController)
+    
+    // MARK: - openWebPage
+    func openWebPage(url: URL, sender: WebMessageController)
+
 }
 
 extension PokoroWebViewController: PokoroWebViewSendingDelegate {
@@ -372,6 +387,13 @@ extension PokoroWebViewController: PokoroWebViewSendingDelegate {
         let jsWithParam = "javascript:window.onDeviceWifiConnectFail(\"\(msg)\")"
         send(jsScript: jsWithParam)
 //        isHandlingMessage = false
+    }
+    
+    func openWebPage(url: URL, sender: WebMessageController) {
+        
+        let safariVC = SFSafariViewController(url: url)
+        safariVC.modalPresentationStyle = .automatic
+        self.present(safariVC, animated: true, completion: nil)
     }
     
     private func send(jsScript:String) {

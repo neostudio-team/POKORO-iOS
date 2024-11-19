@@ -25,7 +25,7 @@ class WebMessageController: NSObject {
     }
     
     enum ReceivedMessage {
-        case stopScan, connectPokoro, disconnectPokoro, startWifiScan, wifiInputPassword(data: WifiInputPasswordData), startLogin(url: URL)
+        case stopScan, connectPokoro, disconnectPokoro, startWifiScan, wifiInputPassword(data: WifiInputPasswordData), startLogin(url: URL), callBrowser(url: URL)
         case setCustomSetting(jsonStr: String), setCustomToken(jsonStr: String)
     }
     
@@ -89,11 +89,18 @@ class WebMessageController: NSObject {
             // 1 communicate with the pen to set the token value
             // 2 send the result to the web
             doForSetCustomToken(jsonStr: jsonStr)
+            
+        case .callBrowser(let url):
+            doForCallBrowser(url: url)
         }
     }
     
     private func doForStartLogin(url: URL) {
         self.delegate?.updateWebviewUrlForOAuth(url: url, sender: self)
+    }
+    
+    private func doForCallBrowser(url: URL) {
+        self.delegate?.openWebPage(url: url, sender: self)
     }
     
     private func doForStopScan() {
