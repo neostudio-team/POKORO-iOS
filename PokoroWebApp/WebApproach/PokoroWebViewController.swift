@@ -81,7 +81,7 @@ class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKUIDel
         webView = WKWebView(frame: self.view.bounds, configuration: config)
 //        webView.navigationDelegate = self
         self.view.addSubview(webView)
-        
+        webView.scrollView.contentInsetAdjustmentBehavior = .never
         webView.evaluateJavaScript("navigator.userAgent"){(result, error) in
         let originUserAgent = result as! String
             let agent = originUserAgent + " inApp"
@@ -101,7 +101,20 @@ class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKUIDel
     }
     
     override func viewDidLayoutSubviews() {
-        webView.frame = self.view.bounds
+        
+        // Get the safe area insets
+        let safeAreaInsets = view.safeAreaInsets
+            
+        // Apply margin to the top and bottom (e.g., 20 points)
+        let topMargin: CGFloat = safeAreaInsets.top
+        let bottomMargin: CGFloat = safeAreaInsets.bottom
+        
+        // Adjust the webView's frame
+        webView.frame = CGRect(
+            x: 0,
+            y: topMargin,  // Respect the top safe area inset
+            width: view.bounds.width,
+            height: view.bounds.height - topMargin - bottomMargin)
     }
     
     
