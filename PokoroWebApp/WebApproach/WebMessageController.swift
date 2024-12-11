@@ -218,7 +218,7 @@ class WebMessageController: NSObject {
         }
         
         let connector = WifiConnector.init(ssid: data.wifiName, passphrase: data.pw, threadOpetationalDataset: nil, espDevice: theDevice)
-        connector.startProvisioning { [weak self] status in
+        connector.startProvisioning { [weak self] status, code in
             
             guard let self = self else { return }
             
@@ -228,9 +228,9 @@ class WebMessageController: NSObject {
                 case .success:
                     self.delegate?.sendWifiConnected(sender: self)
                     self.state = .initiated
-                    
+                
                 case .failure(let error):
-                    self.delegate?.sendWifiConnectFailed(msg: "", sender: self)
+                    self.delegate?.sendWifiConnectFailed(msg: "\(code ?? 3)", sender: self)
                     
                 default:
                     break

@@ -378,8 +378,7 @@ extension PokoroWebViewController: PokoroWebViewSendingDelegate {
     func sendWifiScanFailed(msg: String, sender: WebMessageController) {
         
         print("sendWifiScanFailed(msg: String, sender: WebMessageController)")
-        
-        let jsWithParam = "javascript:window.onDeviceWifiScanFail(\"\(msg)\")"
+        let jsWithParam = "javascript:window.onDeviceWifiScanFail(\'\(msg)\')"
         send(jsScript: jsWithParam)
 //        isHandlingMessage = false
     }
@@ -397,7 +396,7 @@ extension PokoroWebViewController: PokoroWebViewSendingDelegate {
         
         print("sendWifiConnectFailed(msg: String, sender: WebMessageController)")
         
-        let jsWithParam = "javascript:window.onDeviceWifiConnectFail(\"\(msg)\")"
+        let jsWithParam = "javascript:window.onDeviceWifiConnectFail(\'\(msg)\')"
         send(jsScript: jsWithParam)
 //        isHandlingMessage = false
     }

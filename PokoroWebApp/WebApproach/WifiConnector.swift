@@ -23,17 +23,17 @@ class WifiConnector {
         self.espDevice = espDevice
     }
     
-    func startProvisioning(completion:((_ status: ESPProvisionStatus) -> (Void))?) {
+    func startProvisioning(completion:((_ status: ESPProvisionStatus, _ failCode: Int?) -> (Void))?) {
         
         print("connectionTimer initiated")
         connectionTimer?.invalidate()
-        connectionTimer = Timer.init(timeInterval: 10.0, repeats: false, block: { [weak self] timer in
+        connectionTimer = Timer.init(timeInterval: 120.0, repeats: false, block: { [weak self] timer in
             
             print("connectionTimer fired")
             self?.connectionTimer?.invalidate()
             
             // need to call completion
-            completion?(.failure(.unknownError))
+            completion?(.failure(.unknownError), 3)
         })
         RunLoop.main.add(connectionTimer!, forMode: .common)
         
@@ -41,22 +41,35 @@ class WifiConnector {
             
             DispatchQueue.main.async {
                 
+                var code: Int?
+                
                 switch status {
                 case .success:
                     print("Device has been successfully provisioned!")
-                    completion?(status)
+                    self.connectionTimer?.invalidate()
+                    completion?(status, nil)
                 case let .failure(error):
                     switch error {
+                        
+                    case .wifiStatusAuthenticationError:
+                        code = 0
+                    case .wifiStatusNetworkNotFound:
+                        code = 1
+                    case .wifiStatusDisconnected:
+                        code = 2
+                    
                     case .configurationError:
                         print("Failed to apply network configuration to device")
+                        code = 3
                     case .sessionError:
                         print("Session is not established")
-                    case .wifiStatusDisconnected:
-                        print("wifiStatusDisconnected")
+                        code = 3
                     default:
                         print("step2FailedWithMessage")
+                        code = 3
                     }
-                    completion?(status)
+                    self.connectionTimer?.invalidate()
+                    completion?(status, code)
                     
                 case .configApplied:
                     print(".configApplied")
