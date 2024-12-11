@@ -82,6 +82,7 @@ class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKUIDel
 //        webView.navigationDelegate = self
         self.view.addSubview(webView)
         webView.scrollView.contentInsetAdjustmentBehavior = .never
+        webView.scrollView.bounces = false
         webView.evaluateJavaScript("navigator.userAgent"){(result, error) in
         let originUserAgent = result as! String
             let agent = originUserAgent + " inApp"
