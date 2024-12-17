@@ -1,0 +1,8 @@
+/* 
+  InfoPlist.strings
+  PokoroWebApp
+
+  Created by KIM SONGBONG on 12/17/24.
+  
+*/
+"NSBluetoothAlwaysUsageDescription" = "포코로 AI 소리펜에 와이파이 연결을 하기 위해서 포코로에서 이 기능에 접근합니다. ";

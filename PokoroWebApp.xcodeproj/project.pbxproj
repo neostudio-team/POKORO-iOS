@@ -10,6 +10,7 @@
 		0AC6C04F02316FEF26D1E4AA /* Pods_PokoroWebApp_PokoroWebAppUITests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 8687D4DD6B6F8C2751B84AFD /* Pods_PokoroWebApp_PokoroWebAppUITests.framework */; };
 		9CD3B354955696BE039DE634 /* Pods_PokoroWebAppTests.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = D097118AFAD039B385F22B60 /* Pods_PokoroWebAppTests.framework */; };
 		C31021627BF87664FAEB70B6 /* Pods_PokoroWebApp.framework in Frameworks */ = {isa = PBXBuildFile; fileRef = 9490E5228CAE4BB2CC614822 /* Pods_PokoroWebApp.framework */; };
+		F61720532D111A600034AD5E /* InfoPlist.strings in Resources */ = {isa = PBXBuildFile; fileRef = F61720512D111A600034AD5E /* InfoPlist.strings */; };
 		F672802D2CB3A02B003ACF11 /* Assets.xcassets in Resources */ = {isa = PBXBuildFile; fileRef = F67280242CB3A02B003ACF11 /* Assets.xcassets */; };
 		F672802F2CB3A02B003ACF11 /* LaunchScreen.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F67280272CB3A02B003ACF11 /* LaunchScreen.storyboard */; };
 		F67280302CB3A02B003ACF11 /* Main.storyboard in Resources */ = {isa = PBXBuildFile; fileRef = F67280292CB3A02B003ACF11 /* Main.storyboard */; };
@@ -63,6 +64,10 @@
 		D097118AFAD039B385F22B60 /* Pods_PokoroWebAppTests.framework */ = {isa = PBXFileReference; explicitFileType = wrapper.framework; includeInIndex = 0; path = Pods_PokoroWebAppTests.framework; sourceTree = BUILT_PRODUCTS_DIR; };
 		E3DF4552C19614C2EF5279A1 /* Pods-PokoroWebApp.debug.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PokoroWebApp.debug.xcconfig"; path = "Target Support Files/Pods-PokoroWebApp/Pods-PokoroWebApp.debug.xcconfig"; sourceTree = "<group>"; };
 		F4959FA037DB040549326757 /* Pods-PokoroWebApp.release.xcconfig */ = {isa = PBXFileReference; includeInIndex = 1; lastKnownFileType = text.xcconfig; name = "Pods-PokoroWebApp.release.xcconfig"; path = "Target Support Files/Pods-PokoroWebApp/Pods-PokoroWebApp.release.xcconfig"; sourceTree = "<group>"; };
+		F61720522D111A600034AD5E /* en */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = en; path = en.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		F61720542D111AA60034AD5E /* ko */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ko; path = ko.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		F61720552D111AB20034AD5E /* ja */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = ja; path = ja.lproj/InfoPlist.strings; sourceTree = "<group>"; };
+		F61720562D111ABE0034AD5E /* zh-Hant */ = {isa = PBXFileReference; lastKnownFileType = text.plist.strings; name = "zh-Hant"; path = "zh-Hant.lproj/InfoPlist.strings"; sourceTree = "<group>"; };
 		F6727FD92CB37F50003ACF11 /* PokoroWebApp.app */ = {isa = PBXFileReference; explicitFileType = wrapper.application; includeInIndex = 0; path = PokoroWebApp.app; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6727FEF2CB37F51003ACF11 /* PokoroWebAppTests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PokoroWebAppTests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
 		F6727FF92CB37F51003ACF11 /* PokoroWebAppUITests.xctest */ = {isa = PBXFileReference; explicitFileType = wrapper.cfbundle; includeInIndex = 0; path = PokoroWebAppUITests.xctest; sourceTree = BUILT_PRODUCTS_DIR; };
@@ -190,6 +195,7 @@
 				F67280232CB3A02B003ACF11 /* AppDelegate.swift */,
 				F67280242CB3A02B003ACF11 /* Assets.xcassets */,
 				F67280252CB3A02B003ACF11 /* Info.plist */,
+				F61720512D111A600034AD5E /* InfoPlist.strings */,
 				F67280272CB3A02B003ACF11 /* LaunchScreen.storyboard */,
 				F67280292CB3A02B003ACF11 /* Main.storyboard */,
 				F672802A2CB3A02B003ACF11 /* SceneDelegate.swift */,
@@ -321,6 +327,9 @@
 			knownRegions = (
 				en,
 				Base,
+				ko,
+				ja,
+				"zh-Hant",
 			);
 			mainGroup = F6727FD02CB37F50003ACF11;
 			productRefGroup = F6727FDA2CB37F50003ACF11 /* Products */;
@@ -340,6 +349,7 @@
 			buildActionMask = 2147483647;
 			files = (
 				F672802D2CB3A02B003ACF11 /* Assets.xcassets in Resources */,
+				F61720532D111A600034AD5E /* InfoPlist.strings in Resources */,
 				F672802F2CB3A02B003ACF11 /* LaunchScreen.storyboard in Resources */,
 				F67280302CB3A02B003ACF11 /* Main.storyboard in Resources */,
 			);
@@ -523,6 +533,17 @@
 /* End PBXTargetDependency section */
 
 /* Begin PBXVariantGroup section */
+		F61720512D111A600034AD5E /* InfoPlist.strings */ = {
+			isa = PBXVariantGroup;
+			children = (
+				F61720522D111A600034AD5E /* en */,
+				F61720542D111AA60034AD5E /* ko */,
+				F61720552D111AB20034AD5E /* ja */,
+				F61720562D111ABE0034AD5E /* zh-Hant */,
+			);
+			name = InfoPlist.strings;
+			sourceTree = "<group>";
+		};
 		F67280272CB3A02B003ACF11 /* LaunchScreen.storyboard */ = {
 			isa = PBXVariantGroup;
 			children = (
@@ -556,9 +577,6 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PokoroWebApp/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = POKORO;
-				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = Bluetooth;
-				INFOPLIST_KEY_NSCameraUsageDescription = SDK;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -592,9 +610,6 @@
 				ENABLE_USER_SCRIPT_SANDBOXING = NO;
 				GENERATE_INFOPLIST_FILE = YES;
 				INFOPLIST_FILE = PokoroWebApp/Info.plist;
-				INFOPLIST_KEY_CFBundleDisplayName = POKORO;
-				INFOPLIST_KEY_NSBluetoothAlwaysUsageDescription = Bluetooth;
-				INFOPLIST_KEY_NSCameraUsageDescription = SDK;
 				INFOPLIST_KEY_UIApplicationSupportsIndirectInputEvents = YES;
 				INFOPLIST_KEY_UILaunchStoryboardName = LaunchScreen;
 				INFOPLIST_KEY_UIMainStoryboardFile = Main;
@@ -619,6 +634,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -673,6 +689,7 @@
 				ONLY_ACTIVE_ARCH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_ACTIVE_COMPILATION_CONDITIONS = "DEBUG $(inherited)";
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				SWIFT_OPTIMIZATION_LEVEL = "-Onone";
 			};
 			name = Debug;
@@ -682,6 +699,7 @@
 			buildSettings = {
 				ALWAYS_SEARCH_USER_PATHS = NO;
 				ASSETCATALOG_COMPILER_GENERATE_SWIFT_ASSET_SYMBOL_EXTENSIONS = YES;
+				CLANG_ANALYZER_LOCALIZABILITY_NONLOCALIZED = YES;
 				CLANG_ANALYZER_NONNULL = YES;
 				CLANG_ANALYZER_NUMBER_OBJECT_CONVERSION = YES_AGGRESSIVE;
 				CLANG_CXX_LANGUAGE_STANDARD = "gnu++20";
@@ -729,6 +747,7 @@
 				MTL_FAST_MATH = YES;
 				SDKROOT = iphoneos;
 				SWIFT_COMPILATION_MODE = wholemodule;
+				SWIFT_EMIT_LOC_STRINGS = YES;
 				VALIDATE_PRODUCT = YES;
 			};
 			name = Release;
