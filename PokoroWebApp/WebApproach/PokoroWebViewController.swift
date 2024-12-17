@@ -92,9 +92,9 @@ class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKUIDel
         // Load the HTML page
 //        let request = URLRequest(url: URL.init(string: "https://pokoro-temp.web.app")!)
         
-//        let request = URLRequest(url: URL.init(string: "https://board.pokoro.ai")!)
+        let request = URLRequest(url: URL.init(string: "https://board.pokoro.ai")!)
 
-        let request = URLRequest(url: URL.init(string: "https://pokoro-dev.onthe.live")!)
+//        let request = URLRequest(url: URL.init(string: "https://pokoro-dev.onthe.live")!)
 //        let request = URLRequest(url: url)
 //        let request = URLRequest(url: URL.init(string: "http://localhost:3000")!)
         webView.load(request)
