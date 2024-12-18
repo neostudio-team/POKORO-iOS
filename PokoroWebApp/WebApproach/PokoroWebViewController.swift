@@ -70,6 +70,9 @@ class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKUIDel
         },
         callBrowser: function(url) {
             window.webkit.messageHandlers.Native.postMessage({action: 'callBrowser', url: url});
+        },
+        reqIsConnectedPokoro: function() {
+            window.webkit.messageHandlers.Native.postMessage('reqIsConnectedPokoro');
         }
     };
     """
@@ -147,6 +150,9 @@ class PokoroWebViewController: UIViewController, WKScriptMessageHandler, WKUIDel
                 } else if messageBody == "startWifiScan" {
                     receivedMessage = .startWifiScan
                     print("startWifiScan message received")
+                } else if messageBody == "reqIsConnectedPokoro" {
+                    receivedMessage = .reqIsConnectedPokoro
+                    print("reqIsConnectedPokoro message received")
                 }
                 
             } else if let messageBody = message.body as? [String: Any],
@@ -220,6 +226,9 @@ protocol PokoroWebViewSendingDelegate: class {
     
     // MARK: - disConnectPokoro() message is received
     func sendDisconnected(sender: WebMessageController)
+    
+    // MARK: - reqIsConnectedPokoro() message is received
+    func sendIsConnectedPokoro(_ isConnected: Bool, sender: WebMessageController)
     
     // MARK: - custom data
     func sendPokoroStatus(status:String, sender: WebMessageController)
@@ -329,6 +338,14 @@ extension PokoroWebViewController: PokoroWebViewSendingDelegate {
         let jsWithParam = "javascript:window.onDeviceConnectFail()"
         send(jsScript: jsWithParam)
 //        isHandlingMessage = false
+    }
+    
+    func sendIsConnectedPokoro(_ isConnected: Bool, sender: WebMessageController) {
+        
+        print("sendIsConnectedPokoro(_ isConnected: Bool, sender: WebMessageController)")
+        
+        let jsWithParam = "javascript:window.onIsPokoroConnect(\(isConnected))"
+        send(jsScript: jsWithParam)
     }
     
     func sendPokoroStatus(status:String, sender: WebMessageController) {

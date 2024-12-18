@@ -27,6 +27,7 @@ class WebMessageController: NSObject {
     enum ReceivedMessage {
         case stopScan, connectPokoro, disconnectPokoro, startWifiScan, wifiInputPassword(data: WifiInputPasswordData), startLogin(url: URL), callBrowser(url: URL)
         case setCustomSetting(jsonStr: String), setCustomToken(jsonStr: String)
+        case reqIsConnectedPokoro
     }
     
     private var state = State.initiated
@@ -66,6 +67,9 @@ class WebMessageController: NSObject {
             // 2 Send disconnected message
             // 3 let state be 'initiated'
             doForDisconnectPokoro()
+            
+        case .reqIsConnectedPokoro:
+            doForReqIsConnectedPokoro()
             
         case .startWifiScan:
             // 1 if state is 'initiated', send 'WifiScanFailed'
@@ -178,6 +182,12 @@ class WebMessageController: NSObject {
         
         self.state = .initiated
         
+    }
+    
+    private func doForReqIsConnectedPokoro() {
+        
+        var isConnected = bleConnectorForWeb.theDevice != nil
+        self.delegate?.sendIsConnectedPokoro(isConnected, sender: self)
     }
     
     private func doForStartWifiScan() {
